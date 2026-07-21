@@ -57,10 +57,11 @@ model LaborTask {
 }
 
 model LaborRate {
-  id         String        @id @default(cuid())
-  role       LaborRoleName @unique
-  hourlyRate Float
-  updatedAt  DateTime      @updatedAt
+  id          String        @id @default(cuid())
+  role        LaborRoleName @unique
+  hourlyRate  Float
+  rawWageRate Float
+  updatedAt   DateTime      @updatedAt
 }
 
 model CrewSizeRow {
