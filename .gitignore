@@ -1,1 +1,7 @@
 .claude/
+node_modules/
+.next/
+.env
+.env.local
+prisma/dev.db
+*.tsbuildinfo
