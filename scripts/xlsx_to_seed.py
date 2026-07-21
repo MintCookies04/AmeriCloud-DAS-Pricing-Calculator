@@ -124,7 +124,7 @@ def parse_labor_sheet(wb, sheet_name, key_prefix, derived_quantities):
             "category": current_category,
             "name": name,
             "minutesPerUnit": float(minutes) if isinstance(minutes, (int, float)) else 0.0,
-            "unit": unit or "Each",
+            "unit": unit if isinstance(unit, str) and unit else "Each",
             "laborRole": role,
             "includedInSubtotal": included,
             "derivedFrom": derived_out,
@@ -177,8 +177,12 @@ def parse_labor_projection_settings(wb):
     }
 
 
-def parse_pass_through_rates(wb):
-    ws = wb["Pass Throughs"]
+def parse_pass_through_rates(wb_values):
+    # NOTE: must be called with the data_only=True workbook. Column A (role
+    # name) is a cross-sheet formula (e.g. ='Labor Projections'!A$3) for the
+    # perDiem/lodging/airfare role rows; reading it with data_only=False
+    # would return the formula text, not the resolved role name.
+    ws = wb_values["Pass Throughs"]
 
     def role_rate_rows(rows, value_col):
         out = []
@@ -240,7 +244,7 @@ def main():
     assert len(crew_size_table) == 20, f"expected 20 crew-size rows, got {len(crew_size_table)}"
 
     labor_projection_settings = parse_labor_projection_settings(wb)
-    pass_through_rates = parse_pass_through_rates(wb)
+    pass_through_rates = parse_pass_through_rates(wb_values)
 
     def write(name, data):
         with open(OUT_DIR / name, "w", encoding="utf-8") as f:

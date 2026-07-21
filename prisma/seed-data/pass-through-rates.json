@@ -1,63 +1,63 @@
 {
   "perDiemRateByRole": [
     {
-      "role": "='Labor Projections'!A$3",
+      "role": "Technician",
       "rate": 50.0
     },
     {
-      "role": "='Labor Projections'!A$4",
+      "role": "Construction Manager",
       "rate": 50.0
     },
     {
-      "role": "='Labor Projections'!A$5",
+      "role": "RF-Engineer",
       "rate": 50.0
     },
     {
-      "role": "='Labor Projections'!A$6",
+      "role": "RF-Technician",
       "rate": 50.0
     },
     {
-      "role": "='Labor Projections'!A$7",
+      "role": "Project Coordinator",
       "rate": 50.0
     },
     {
-      "role": "='Labor Projections'!A$8",
+      "role": "Project Manager",
       "rate": 50.0
     }
   ],
   "lodgingRateByRole": [
     {
-      "role": "='Labor Projections'!A$3",
+      "role": "Technician",
       "rate": 120.0
     },
     {
-      "role": "='Labor Projections'!A$4",
+      "role": "Construction Manager",
       "rate": 120.0
     },
     {
-      "role": "='Labor Projections'!A$5",
+      "role": "RF-Engineer",
       "rate": 120.0
     },
     {
-      "role": "='Labor Projections'!A$6",
+      "role": "RF-Technician",
       "rate": 120.0
     },
     {
-      "role": "='Labor Projections'!A$7",
+      "role": "Project Coordinator",
       "rate": 120.0
     },
     {
-      "role": "='Labor Projections'!A$8",
+      "role": "Project Manager",
       "rate": 120.0
     }
   ],
   "airfareCostByRole": [
     {
-      "role": "='Labor Projections'!A$3",
+      "role": "Technician",
       "cost": 500.0
     },
     {
-      "role": "='Labor Projections'!A$4",
+      "role": "Construction Manager",
       "cost": 500.0
     }
   ],

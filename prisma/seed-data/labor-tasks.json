@@ -1305,7 +1305,7 @@
     "category": "Miscellaneous",
     "name": "Contingency",
     "minutesPerUnit": 60.0,
-    "unit": 0.1,
+    "unit": "Each",
     "laborRole": "Technician",
     "includedInSubtotal": true,
     "derivedFrom": null
