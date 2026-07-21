@@ -29,5 +29,8 @@
     "prisma": "^5.16.1",
     "vitest": "^1.6.0",
     "tsx": "^4.16.2"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   }
 }
