@@ -24,6 +24,7 @@
 
 - **Task 2 review finding, approved by user:** `LaborProjectionSettings.id` and `EstimateDefaults.id` use `@default("singleton")` instead of `@default(cuid())`, so callers can always upsert against the known id `"singleton"` rather than doing find-first-then-create-or-update. Task 4's seed script below already reflects this (uses `upsert({ where: { id: 'singleton' }, ... })` for both models). Applied in commit `a00b4f7`.
 - **Task 2 review finding, kept as-is by user:** monetary/percentage fields remain `Float` rather than `Decimal` — matches the source workbook's own double-precision arithmetic and avoids reworking Tasks 5–11's calculation engine to use decimal arithmetic for a precision risk that doesn't apply at these magnitudes.
+- **Correctness fix discovered during Task 3 verification:** the source workbook's Labor Projections sheet has TWO distinct rates per role — column B ("Hourly Cost", the raw wage) and column D ("Reg Bill with MU", the billing rate). For 5 of 6 roles these are equal (multiplier is 0), but RF-Engineer is a deliberate exception: raw wage = $75/hr, billing rate = $100/hr (a hardcoded override, not a formula). LOE Sheet/Additional SOW's task costs and crew/admin labor cost all look up column D (billing rate) via `VLOOKUP(...,'Labor Projections'!A$3:D$12,4,...)`. The Pass Throughs sheet's Travel section deliberately looks up column B (raw wage) instead via `VLOOKUP(...,'Labor Projections'!A3:B12,2,...)`. `LaborRate` therefore has both `hourlyRate` (billing, column D — used by Tasks 6/7/8's calculations) and `rawWageRate` (raw wage, column B — used only by Task 9's travel calculation). Task 3's `parse_labor_rates`, Task 4's seed script, Task 5's types, and Task 9's `calculatePassThroughs` below all reflect this two-rate model.
 
 ### Task 1: Project scaffold — Next.js, TypeScript, Tailwind, brand theme
 
@@ -391,10 +392,11 @@ model LaborTask {
 }
 
 model LaborRate {
-  id         String        @id @default(cuid())
-  role       LaborRoleName @unique
-  hourlyRate Float
-  updatedAt  DateTime      @updatedAt
+  id           String        @id @default(cuid())
+  role         LaborRoleName @unique
+  hourlyRate   Float
+  rawWageRate  Float
+  updatedAt    DateTime      @updatedAt
 }
 
 model CrewSizeRow {
@@ -557,6 +559,10 @@ def load_wb():
     return openpyxl.load_workbook(WORKBOOK_PATH, data_only=False)
 
 
+def load_wb_values():
+    return openpyxl.load_workbook(WORKBOOK_PATH, data_only=True)
+
+
 def parse_material_items(wb):
     ws = wb["Bill of Materials"]
     items = []
@@ -629,15 +635,24 @@ def parse_labor_sheet(wb, sheet_name, key_prefix, derived_quantities):
     return tasks
 
 
-def parse_labor_rates(wb):
-    ws = wb["Labor Projections"]
+def parse_labor_rates(wb_values):
+    # NOTE: must be called with a workbook loaded via data_only=True. Column D
+    # ("Reg Bill with MU") is a formula for 5 of 6 roles and a hardcoded
+    # literal override for RF-Engineer (=100, vs its raw wage B5=75) — reading
+    # it with data_only=False would return the formula text, not the number.
+    ws = wb_values["Labor Projections"]
     rates = []
     for row in range(3, 9):
         role = ws[f"A{row}"].value
-        rate = ws[f"B{row}"].value
-        if role is None or rate is None:
+        raw_wage = ws[f"B{row}"].value
+        billing_rate = ws[f"D{row}"].value
+        if role is None or raw_wage is None or billing_rate is None:
             continue
-        rates.append({"role": role, "hourlyRate": float(rate)})
+        rates.append({
+            "role": role,
+            "hourlyRate": float(billing_rate),
+            "rawWageRate": float(raw_wage),
+        })
     return rates
 
 
@@ -709,6 +724,7 @@ def parse_pass_through_rates(wb):
 
 def main():
     wb = load_wb()
+    wb_values = load_wb_values()
     OUT_DIR.mkdir(parents=True, exist_ok=True)
 
     material_items = parse_material_items(wb)
@@ -716,11 +732,11 @@ def main():
 
     loe_tasks = parse_labor_sheet(wb, "LOE Sheet", "loe", LOE_DERIVED_QUANTITIES)
     sow_tasks = parse_labor_sheet(wb, "Additional SOW's", "sow", {})
-    assert len(loe_tasks) >= 90, f"expected ~100 LOE tasks, got {len(loe_tasks)}"
-    assert len(sow_tasks) >= 20, f"expected ~28 Additional SOW tasks, got {len(sow_tasks)}"
+    assert len(loe_tasks) == 89, f"expected exactly 89 LOE tasks, got {len(loe_tasks)}"
+    assert len(sow_tasks) == 19, f"expected exactly 19 Additional SOW tasks, got {len(sow_tasks)}"
     labor_tasks = loe_tasks + sow_tasks
 
-    labor_rates = parse_labor_rates(wb)
+    labor_rates = parse_labor_rates(wb_values)
     assert len(labor_rates) == 6, f"expected 6 labor rates, got {len(labor_rates)}"
 
     crew_size_table = parse_crew_size_table(wb)
@@ -769,6 +785,10 @@ assert {'key': 'loe-31', 'coeff': 1} in labeling['derivedFrom']['terms'], labeli
 rates = json.load(open('prisma/seed-data/labor-rates.json'))
 tech = next(r for r in rates if r['role'] == 'Technician')
 assert tech['hourlyRate'] == 85, tech
+assert tech['rawWageRate'] == 85, tech
+rf_engineer = next(r for r in rates if r['role'] == 'RF-Engineer')
+assert rf_engineer['hourlyRate'] == 100, rf_engineer  # billing rate: hardcoded override in the workbook
+assert rf_engineer['rawWageRate'] == 75, rf_engineer  # raw wage: distinct from billing rate for this one role
 print('all spot checks passed')
 "
 ```
@@ -845,7 +865,7 @@ interface SeedLaborTask {
   derivedFrom: { terms: { key: string; coeff: number }[]; divisor: number } | null;
 }
 
-interface SeedLaborRate { role: string; hourlyRate: number }
+interface SeedLaborRate { role: string; hourlyRate: number; rawWageRate: number }
 interface SeedCrewSizeRow { technicianCount: number; cmsNeeded: number }
 interface SeedLaborProjectionSettings {
   hoursPerManDay: number; hoursPerManWeek: number; stagingMaterialMultiplier: number;
@@ -902,8 +922,8 @@ async function main() {
     const role = ROLE_MAP[rate.role];
     await prisma.laborRate.upsert({
       where: { role },
-      create: { role, hourlyRate: rate.hourlyRate },
-      update: { hourlyRate: rate.hourlyRate },
+      create: { role, hourlyRate: rate.hourlyRate, rawWageRate: rate.rawWageRate },
+      update: { hourlyRate: rate.hourlyRate, rawWageRate: rate.rawWageRate },
     });
   }
 
@@ -1258,7 +1278,7 @@ export interface ExecutiveSummaryResult {
 export interface ReferenceData {
   materialItems: MaterialItem[];
   laborTasks: LaborTask[];
-  laborRates: { role: LaborRole; hourlyRate: number }[];
+  laborRates: { role: LaborRole; hourlyRate: number; rawWageRate: number }[];
   crewSizeTable: CrewSizeRow[];
   laborProjectionSettings: LaborProjectionSettings;
   passThroughRates: {
@@ -1435,7 +1455,7 @@ git commit -m "Add materials calculation module"
 
 **Interfaces:**
 - Consumes: `LaborTask`, `LaborTaskLineInput`, `LaborResult`, `LaborRole` from Task 5.
-- Produces: `calculateLabor(tasks: LaborTask[], loeInputs: LaborTaskLineInput[], sowInputs: LaborTaskLineInput[], rates: { role: LaborRole; hourlyRate: number }[]): LaborResult` — used by Task 8 (crew plan) and Task 11 (orchestrator).
+- Produces: `calculateLabor(tasks: LaborTask[], loeInputs: LaborTaskLineInput[], sowInputs: LaborTaskLineInput[], rates: { role: LaborRole; hourlyRate: number; rawWageRate: number }[]): LaborResult` — used by Task 8 (crew plan) and Task 11 (orchestrator).
 
 - [ ] **Step 1: Write the failing tests**
 
@@ -1446,8 +1466,8 @@ import { calculateLabor } from './labor';
 import type { LaborTask } from './types';
 
 const rates = [
-  { role: 'Technician' as const, hourlyRate: 85 },
-  { role: 'Construction Manager' as const, hourlyRate: 95 },
+  { role: 'Technician' as const, hourlyRate: 85, rawWageRate: 85 },
+  { role: 'Construction Manager' as const, hourlyRate: 95, rawWageRate: 95 },
 ];
 
 const baseTasks: LaborTask[] = [
@@ -1578,7 +1598,7 @@ export function calculateLabor(
   tasks: LaborTask[],
   loeInputs: LaborTaskLineInput[],
   sowInputs: LaborTaskLineInput[],
-  rates: { role: LaborRole; hourlyRate: number }[],
+  rates: { role: LaborRole; hourlyRate: number; rawWageRate: number }[],
 ): LaborResult {
   const rateByRole = new Map(rates.map((r) => [r.role, r.hourlyRate]));
   const quantities = resolveQuantities(tasks, [...loeInputs, ...sowInputs]);
@@ -1637,7 +1657,7 @@ git commit -m "Add labor calculation module with derived-quantity resolution"
 
 **Interfaces:**
 - Consumes: `LaborResult` from Task 7; `LaborProjectionSettings`, `CrewSizeRow`, `LaborRole`, `CrewPlanResult` from Task 5.
-- Produces: `calculateCrewPlan(labor: LaborResult, settings: LaborProjectionSettings, crewSizeTable: CrewSizeRow[], rates: { role: LaborRole; hourlyRate: number }[], technicianCount: number): CrewPlanResult` — used by Task 11.
+- Produces: `calculateCrewPlan(labor: LaborResult, settings: LaborProjectionSettings, crewSizeTable: CrewSizeRow[], rates: { role: LaborRole; hourlyRate: number; rawWageRate: number }[], technicianCount: number): CrewPlanResult` — used by Task 11.
 
 - [ ] **Step 1: Write the failing tests**
 
@@ -1670,9 +1690,9 @@ const crewSizeTable = [
 ];
 
 const rates = [
-  { role: 'Construction Manager' as const, hourlyRate: 95 },
-  { role: 'Project Manager' as const, hourlyRate: 100 },
-  { role: 'Project Coordinator' as const, hourlyRate: 55 },
+  { role: 'Construction Manager' as const, hourlyRate: 95, rawWageRate: 95 },
+  { role: 'Project Manager' as const, hourlyRate: 100, rawWageRate: 100 },
+  { role: 'Project Coordinator' as const, hourlyRate: 55, rawWageRate: 55 },
 ];
 
 describe('calculateCrewPlan', () => {
@@ -1736,7 +1756,7 @@ export function calculateCrewPlan(
   labor: LaborResult,
   settings: LaborProjectionSettings,
   crewSizeTable: CrewSizeRow[],
-  rates: { role: LaborRole; hourlyRate: number }[],
+  rates: { role: LaborRole; hourlyRate: number; rawWageRate: number }[],
   technicianCount: number,
 ): CrewPlanResult {
   const rateByRole = new Map(rates.map((r) => [r.role, r.hourlyRate]));
@@ -1810,7 +1830,7 @@ git commit -m "Add crew-size planning calculation module"
 
 **Interfaces:**
 - Consumes: `PassThroughInput`, `PassThroughResult`, `LaborRole` from Task 5.
-- Produces: `calculatePassThroughs(input: PassThroughInput, rates: ReferenceData['passThroughRates'], laborRates: { role: LaborRole; hourlyRate: number }[]): PassThroughResult` — used by Task 11.
+- Produces: `calculatePassThroughs(input: PassThroughInput, rates: ReferenceData['passThroughRates'], laborRates: { role: LaborRole; hourlyRate: number; rawWageRate: number }[]): PassThroughResult` — used by Task 11.
 
 - [ ] **Step 1: Write the failing tests**
 
@@ -1827,7 +1847,12 @@ const rates = {
   softCosts: [{ key: 'softcost-62', name: 'Benchmark Testing', fee: 4500 }],
 };
 
-const laborRates = [{ role: 'Technician' as const, hourlyRate: 85 }];
+const laborRates = [
+  { role: 'Technician' as const, hourlyRate: 85, rawWageRate: 85 },
+  // RF-Engineer's billing rate (100) deliberately differs from its raw wage
+  // (75) in the source workbook — travel must use the raw wage, not billing.
+  { role: 'RF-Engineer' as const, hourlyRate: 100, rawWageRate: 75 },
+];
 
 describe('calculatePassThroughs', () => {
   it('computes per diem as rate * employeeCount * days', () => {
@@ -1838,13 +1863,14 @@ describe('calculatePassThroughs', () => {
     expect(result.perDiemTotal).toBe(50 * 4 * 10);
   });
 
-  it('computes travel using the labor hourly rate, not a separate rate table', () => {
+  it('computes travel using the labor raw wage rate, not the billing rate', () => {
     const result = calculatePassThroughs({
       perDiem: [], lodging: [],
-      travel: [{ role: 'Technician', employeeCount: 3, hours: 8 }],
+      travel: [{ role: 'RF-Engineer', employeeCount: 3, hours: 8 }],
       airfare: [], rentals: [], softCosts: [],
     }, rates, laborRates);
-    expect(result.travelTotal).toBe(85 * 3 * 8);
+    // must use rawWageRate (75), not hourlyRate/billing rate (100)
+    expect(result.travelTotal).toBe(75 * 3 * 8);
     expect(result.travelHours).toBe(3 * 8);
   });
 
@@ -1891,7 +1917,7 @@ import type { LaborRole, PassThroughInput, PassThroughResult, ReferenceData } fr
 export function calculatePassThroughs(
   input: PassThroughInput,
   rates: ReferenceData['passThroughRates'],
-  laborRates: { role: LaborRole; hourlyRate: number }[],
+  laborRates: { role: LaborRole; hourlyRate: number; rawWageRate: number }[],
 ): PassThroughResult {
   const perDiemRateByRole = new Map(rates.perDiemRateByRole.map((r) => [r.role, r.rate]));
   const perDiemTotal = input.perDiem.reduce(
@@ -1903,9 +1929,13 @@ export function calculatePassThroughs(
     (s, l) => s + (lodgingRateByRole.get(l.role) ?? 0) * l.employeeCount * l.days, 0,
   );
 
-  const hourlyByRole = new Map(laborRates.map((r) => [r.role, r.hourlyRate]));
+  // Travel uses the raw wage rate, not the billing rate — the workbook's
+  // Pass Throughs sheet deliberately looks up column B ("Hourly Cost"), not
+  // column D ("Reg Bill with MU"), for travel pay. These differ for
+  // RF-Engineer specifically (raw wage $75 vs billing rate $100).
+  const rawWageByRole = new Map(laborRates.map((r) => [r.role, r.rawWageRate]));
   const travelTotal = input.travel.reduce(
-    (s, l) => s + (hourlyByRole.get(l.role) ?? 0) * l.employeeCount * l.hours, 0,
+    (s, l) => s + (rawWageByRole.get(l.role) ?? 0) * l.employeeCount * l.hours, 0,
   );
   const travelHours = input.travel.reduce((s, l) => s + l.employeeCount * l.hours, 0);
 
@@ -2196,12 +2226,12 @@ const referenceData: ReferenceData = {
     { key: 'loe-21', sheet: 'LOE', category: 'Coax', name: 'Connectorize captive coax up to half inch', minutesPerUnit: 15, unit: 'Each', laborRole: 'Technician', includedInSubtotal: true, derivedFrom: null },
   ],
   laborRates: [
-    { role: 'Technician', hourlyRate: 85 },
-    { role: 'Construction Manager', hourlyRate: 95 },
-    { role: 'RF-Engineer', hourlyRate: 100 },
-    { role: 'RF-Technician', hourlyRate: 75 },
-    { role: 'Project Coordinator', hourlyRate: 55 },
-    { role: 'Project Manager', hourlyRate: 100 },
+    { role: 'Technician', hourlyRate: 85, rawWageRate: 85 },
+    { role: 'Construction Manager', hourlyRate: 95, rawWageRate: 95 },
+    { role: 'RF-Engineer', hourlyRate: 100, rawWageRate: 75 },
+    { role: 'RF-Technician', hourlyRate: 75, rawWageRate: 75 },
+    { role: 'Project Coordinator', hourlyRate: 55, rawWageRate: 55 },
+    { role: 'Project Manager', hourlyRate: 100, rawWageRate: 100 },
   ],
   crewSizeTable: [{ technicianCount: 4, cmsNeeded: 2 }],
   laborProjectionSettings: {
