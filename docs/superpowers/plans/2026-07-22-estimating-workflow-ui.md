@@ -1688,10 +1688,20 @@ import { useState } from 'react';
 import { useEstimate } from '@/lib/estimate/EstimateContext';
 import { formatCurrency } from '@/lib/utils/formatCurrency';
 
-function Row({ label, value, strong = false }: { label: string; value: string; strong?: boolean }) {
+function Row({
+  label,
+  value,
+  strong = false,
+  dark = false,
+}: {
+  label: string;
+  value: string;
+  strong?: boolean;
+  dark?: boolean;
+}) {
   return (
     <div className={`flex justify-between py-1 ${strong ? 'font-display text-navy' : 'text-sm'}`}>
-      <span className={strong ? '' : 'text-slate'}>{label}</span>
+      <span className={strong ? '' : dark ? 'text-white/70' : 'text-slate'}>{label}</span>
       <span className={strong ? 'font-semibold' : ''}>{value}</span>
     </div>
   );
@@ -1749,6 +1759,7 @@ export default function SummaryPage() {
             onChange={(e) => setMarkups({ marginTweak: Number(e.target.value) })}
           />
         </label>
+        <Row label="PGM Grand Total" value={formatCurrency(es.projectedGrossMarginTotal)} strong />
       </section>
 
       <section className="bg-white rounded-lg shadow p-4">
@@ -1786,13 +1797,13 @@ export default function SummaryPage() {
       </section>
 
       <section className="bg-navy rounded-lg shadow p-6 text-white">
-        <Row label="Total Labor to Bid" value={formatCurrency(es.totalLaborToBid)} />
-        <Row label="Total Material to Bid" value={formatCurrency(es.totalMaterialToBid)} />
+        <Row label="Total Labor to Bid" value={formatCurrency(es.totalLaborToBid)} dark />
+        <Row label="Total Material to Bid" value={formatCurrency(es.totalMaterialToBid)} dark />
         <div className="flex justify-between items-center pt-3 mt-3 border-t border-white/20">
           <span className="font-display text-lg">Grand Total to Bid (Tax Exempt)</span>
           <span className="font-display text-xl">{formatCurrency(es.grandTotalToBidTaxExempt)}</span>
         </div>
-        <Row label={`Tax (${(input.markups.taxRate * 100).toFixed(2)}%)`} value={formatCurrency(es.taxAmount)} />
+        <Row label={`Tax (${(input.markups.taxRate * 100).toFixed(2)}%)`} value={formatCurrency(es.taxAmount)} dark />
         <div className="flex justify-between items-center pt-3 mt-3 border-t border-white/20">
           <span className="font-display text-lg">Grand Total to Bid (Tax Included)</span>
           <span className="font-display text-2xl text-red">{formatCurrency(es.grandTotalToBidTaxIncluded)}</span>
