@@ -1,0 +1,184 @@
+{
+  "perDiemRateByRole": [
+    {
+      "role": "='Labor Projections'!A$3",
+      "rate": 50.0
+    },
+    {
+      "role": "='Labor Projections'!A$4",
+      "rate": 50.0
+    },
+    {
+      "role": "='Labor Projections'!A$5",
+      "rate": 50.0
+    },
+    {
+      "role": "='Labor Projections'!A$6",
+      "rate": 50.0
+    },
+    {
+      "role": "='Labor Projections'!A$7",
+      "rate": 50.0
+    },
+    {
+      "role": "='Labor Projections'!A$8",
+      "rate": 50.0
+    }
+  ],
+  "lodgingRateByRole": [
+    {
+      "role": "='Labor Projections'!A$3",
+      "rate": 120.0
+    },
+    {
+      "role": "='Labor Projections'!A$4",
+      "rate": 120.0
+    },
+    {
+      "role": "='Labor Projections'!A$5",
+      "rate": 120.0
+    },
+    {
+      "role": "='Labor Projections'!A$6",
+      "rate": 120.0
+    },
+    {
+      "role": "='Labor Projections'!A$7",
+      "rate": 120.0
+    },
+    {
+      "role": "='Labor Projections'!A$8",
+      "rate": 120.0
+    }
+  ],
+  "airfareCostByRole": [
+    {
+      "role": "='Labor Projections'!A$3",
+      "cost": 500.0
+    },
+    {
+      "role": "='Labor Projections'!A$4",
+      "cost": 500.0
+    }
+  ],
+  "rentals": [
+    {
+      "key": "rental-45",
+      "name": "Fiber Test",
+      "rate": 1800.0,
+      "unit": "Week"
+    },
+    {
+      "key": "rental-46",
+      "name": "Lift",
+      "rate": 1200.0,
+      "unit": "Month"
+    },
+    {
+      "key": "rental-48",
+      "name": "Sweep",
+      "rate": 1200.0,
+      "unit": "Month"
+    },
+    {
+      "key": "rental-49",
+      "name": "CAT cable tester",
+      "rate": 800.0,
+      "unit": "Month"
+    },
+    {
+      "key": "rental-50",
+      "name": "Fusion Splicer",
+      "rate": 1800.0,
+      "unit": "Month"
+    },
+    {
+      "key": "rental-51",
+      "name": "Scissor lift",
+      "rate": 1800.0,
+      "unit": "Month"
+    },
+    {
+      "key": "rental-52",
+      "name": "Scaffolding Platform ",
+      "rate": 200.0,
+      "unit": "Week"
+    },
+    {
+      "key": "rental-53",
+      "name": "Storage",
+      "rate": 700.0,
+      "unit": "Week"
+    },
+    {
+      "key": "rental-54",
+      "name": "Truck",
+      "rate": 1000.0,
+      "unit": "Week"
+    },
+    {
+      "key": "rental-55",
+      "name": "Parking",
+      "rate": 600.0,
+      "unit": "Week"
+    },
+    {
+      "key": "rental-56",
+      "name": "Soft Hepa Cart",
+      "rate": 950.0,
+      "unit": "Week"
+    }
+  ],
+  "softCosts": [
+    {
+      "key": "softcost-62",
+      "name": "Benchmark Testing",
+      "fee": 4500.0
+    },
+    {
+      "key": "softcost-63",
+      "name": "Ibwave design",
+      "fee": 5500.0
+    },
+    {
+      "key": "softcost-64",
+      "name": "Commissioning",
+      "fee": 5000.0
+    },
+    {
+      "key": "softcost-65",
+      "name": "Leasing",
+      "fee": 3500.0
+    },
+    {
+      "key": "softcost-66",
+      "name": "Site Acquisition",
+      "fee": 2500.0
+    },
+    {
+      "key": "softcost-67",
+      "name": "Pre Integration",
+      "fee": 5775.0
+    },
+    {
+      "key": "softcost-68",
+      "name": "Post Integration",
+      "fee": 6500.0
+    },
+    {
+      "key": "softcost-69",
+      "name": "Data collection",
+      "fee": 2500.0
+    },
+    {
+      "key": "softcost-70",
+      "name": "e911 Test",
+      "fee": 1500.0
+    },
+    {
+      "key": "softcost-71",
+      "name": "Extra",
+      "fee": 0.0
+    }
+  ]
+}

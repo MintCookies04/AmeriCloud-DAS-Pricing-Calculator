@@ -1,0 +1,842 @@
+[
+  {
+    "key": "bom-3",
+    "type": "DC Power Plant",
+    "manufacturer": "Vertiv",
+    "model": "582137200",
+    "description": "NetSure 5100 Integrated Power System",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 4685.0
+  },
+  {
+    "key": "bom-4",
+    "type": "DC Power Plant",
+    "manufacturer": "Westell",
+    "model": "NPGMT1012",
+    "description": "100 Amp, Dual Bus, 20A GMT Fuse Panels, 1 RU 19\" or 23\" rack mount, UL 60950-1",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 360.0
+  },
+  {
+    "key": "bom-5",
+    "type": "DC Power Plant",
+    "manufacturer": "Cooper Bussmann",
+    "model": "BK/GMT-10A",
+    "description": "Fuse, GMT, 10 AMP/ 10 pack",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 35.0
+  },
+  {
+    "key": "bom-6",
+    "type": "Filter",
+    "manufacturer": "Microlab/FXR",
+    "model": "BK-3001E",
+    "description": "Triplexer, PCS/AWS1-3/2.5 BRS, 1850-2000/1695-1780 & 2110-2200/2496-2690 MHz, 100W, 4.3-10 Connectors, Low PIM <-161dBc, IP67 ",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 1160.0
+  },
+  {
+    "key": "bom-7",
+    "type": "Filter",
+    "manufacturer": "Advanced RF Technologies",
+    "model": "ADXV-R-CHC-U",
+    "description": "ADXV: Low PIM Universal Channel Combiner",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 1350.0
+  },
+  {
+    "key": "bom-8",
+    "type": "Network Equipment",
+    "manufacturer": "Advanced RF Technologies",
+    "model": "SDR-NMS",
+    "description": "[SDR]-NMS; SDR Network Management System w/ Chassis- Support SDR-24/30/33 modules.",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 1000.0
+  },
+  {
+    "key": "bom-9",
+    "type": "Antenna",
+    "manufacturer": "Advanced RF Technologies",
+    "model": "AD-PA-1695-4200-D",
+    "description": "High-Isolation Donor Antenna / 1695 MHz - 4200 MHz / 17.8 - 19.6 dBi / 20.6 - 13.4 degree beam",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 840.0
+  },
+  {
+    "key": "bom-10",
+    "type": "Antenna",
+    "manufacturer": "JMA Wireless",
+    "model": "iV02OMI136-M4",
+    "description": "Surface Mount Omni MIMO Antenna, 617-5925 MHz 4.3-10 with pigtails. Use port 2 for SISO systems.",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 192.0
+  },
+  {
+    "key": "bom-11",
+    "type": "Antenna",
+    "manufacturer": "CommScope",
+    "model": "CMAX-DMF2-43-WI53",
+    "description": "Low PIM Directional MIMO Antenna 4G/5G/C-Band, 698\u2013960 MHz,1695\u20132700 MHz and 3300-4200MHz",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 344.0
+  },
+  {
+    "key": "bom-12",
+    "type": "Coax Jumpers",
+    "manufacturer": "RFI",
+    "model": null,
+    "description": "SMA Male to N Male Cable Using LMR-200 Coax - 15'",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 42.0
+  },
+  {
+    "key": "bom-13",
+    "type": "Coax Jumpers",
+    "manufacturer": "RFI",
+    "model": null,
+    "description": "SMA Male Right Angle to N Male Cable Using LMR-200 Coax - 15'",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 42.0
+  },
+  {
+    "key": "bom-14",
+    "type": "Coax Jumpers",
+    "manufacturer": "Times Microwave Systems",
+    "model": "SPF25043M43M3.0F",
+    "description": "3ft - 50 Ohm Low Loss, Low PIM Fire Retardant Coaxial Jumper Cable",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 29.81
+  },
+  {
+    "key": "bom-15",
+    "type": "Combiner",
+    "manufacturer": "SYM Technology",
+    "model": "HC-33-60",
+    "description": "Hybrid combiner 3x3 4.3-10",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 1900.0
+  },
+  {
+    "key": "bom-16",
+    "type": "Combiner",
+    "manufacturer": "Microlab",
+    "model": "CM-680E",
+    "description": "Hybrid combiner 3x3 4.3-10",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 964.22
+  },
+  {
+    "key": "bom-17",
+    "type": "Combiner",
+    "manufacturer": "MicroLab",
+    "model": "BL-51N",
+    "description": "Duplexer AWS 2110-2180/1695-17 80MHz 60W -161dBc N-type IP67",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 1087.89
+  },
+  {
+    "key": "bom-18",
+    "type": "Combiner",
+    "manufacturer": "MicroLab",
+    "model": "BL-19N",
+    "description": "Duplexer PCS 1850-1915/1930-19 95MHz 60W -153dBc N-type IP64",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 640.0
+  },
+  {
+    "key": "bom-19",
+    "type": "Combiner",
+    "manufacturer": "MicroLab",
+    "model": "CA-84N",
+    "description": "Microlab CA-84N 700-2700 MHz Hybrid Coupler N (CA-84N)",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 450.0
+  },
+  {
+    "key": "bom-20",
+    "type": "Load",
+    "manufacturer": "CommScope",
+    "model": "T-10-UW-43-M",
+    "description": "Termination Load, 0\u20136000 MHz, Not for PIM-rated applications",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 50.0
+  },
+  {
+    "key": "bom-21",
+    "type": "Splitter",
+    "manufacturer": "Corning",
+    "model": "37G00189332-400F",
+    "description": "Corning ONE Composite  Cable Assembly, 6F/6C 16 AWG,400 Ft.",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 400.0
+  },
+  {
+    "key": "bom-22",
+    "type": "Splitter",
+    "manufacturer": "Microlab/FXR",
+    "model": "DN-54FE",
+    "description": "Unequal Power Splitter (Tapper), Low PIM <-161 dBc, 4:1 (6 dB), 350-5930 MHz, 500W, 4.3-10 Connectors, IP67,",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 128.0
+  },
+  {
+    "key": "bom-23",
+    "type": "Splitter",
+    "manufacturer": "Microlab/FXR",
+    "model": "DN-34FE",
+    "description": "Unequal Power Splitter (Tapper), Low PIM <-161 dBc, 2:1 (3 dB), 350-5930 MHz, 500W, 4.3-10 Connectors IP67 ",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 119.0
+  },
+  {
+    "key": "bom-24",
+    "type": "Splitter",
+    "manufacturer": "Microlab/FXR",
+    "model": "D2-83FE",
+    "description": "2-way Tube Style - Reactive Power Divider - Ultra Wideband 617-5925 MHz - 300W - Low PIM <-165 dBc - 4.3-10 Connectors, IP67 ",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 125.0
+  },
+  {
+    "key": "bom-25",
+    "type": "Splitter",
+    "manufacturer": "Microlab/FXR",
+    "model": "DN-84FE",
+    "description": "Unequal Power Splitter (Tapper), Low PIM <-161 dBc, 20:1 (13 dB), 350-5930 MHz, 500W, 4.3-10 Connectors, IP67 ",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 94.0
+  },
+  {
+    "key": "bom-26",
+    "type": "Splitter",
+    "manufacturer": "Microlab/FXR",
+    "model": "DN-64FE",
+    "description": "Unequal Power Splitter (Tapper), Low PIM <-161 dBc, 6:1 (8 dB), 350-5930 MHz, 500W, 4.3-10 Connectors, IP67,",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 159.0
+  },
+  {
+    "key": "bom-27",
+    "type": "Splitter",
+    "manufacturer": "Microlab/FXR",
+    "model": "DN-74FE",
+    "description": "Unequal Power Splitter (Tapper), Low PIM <-161dBc, 10:1 (10 dB), 350-5930 MHz, 500W, 4.3-10 Connectors, IP67",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 125.0
+  },
+  {
+    "key": "bom-28",
+    "type": "Splitter",
+    "manufacturer": "Microlab/FXR",
+    "model": "DN-44FE",
+    "description": "Unequal Power Splitter (Tapper), Low PIM <-161 dBc, 3:1 (4.8 dB), 350-5930 MHz, 500W, 4.3-10 Connectors, IP67 ",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 193.0
+  },
+  {
+    "key": "bom-29",
+    "type": "Splitter",
+    "manufacturer": "Microlab/FXR",
+    "model": "DN-94FE",
+    "description": "Unequal Power Splitter (Tapper), Low PIM <-161 dBc, 30:1 (15 dB), 350-5930 MHz, 500W, 4.3-10 connectors, IP67  ",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 119.0
+  },
+  {
+    "key": "bom-30",
+    "type": "Hybrid Matrix",
+    "manufacturer": "Sym Technology",
+    "model": "CSC-TMO-PAB",
+    "description": "CSC Triplexer 1U Rack Mountable",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 1900.0
+  },
+  {
+    "key": "bom-31",
+    "type": "GPS",
+    "manufacturer": "PCTEL",
+    "model": "GPS-TMG-HR-26N",
+    "description": "26 DB HIGH REJECTION ANTENNA WITH ENHANCED NARROW BAND FILTERING",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 230.0
+  },
+  {
+    "key": "bom-32",
+    "type": "Coax",
+    "manufacturer": "RFS",
+    "model": "ICA12-50JPLW",
+    "description": "ClearFillLine - 1/2in Low Loss Air Dialectric Cable - Plenum Rated/ Indoor/ Outdoor Usage/ Color White",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 3.5
+  },
+  {
+    "key": "bom-33",
+    "type": "Coax",
+    "manufacturer": "Commscope ",
+    "model": "LDF4-50A",
+    "description": "LDF4-50A, HELIAX\u00ae Low Density Foam Coaxial Cable, corrugated copper, 1/2 in, black PE jacket (outdoor)",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 2.03
+  },
+  {
+    "key": "bom-34",
+    "type": "Coax  ",
+    "manufacturer": "RFS",
+    "model": "RLCF12-50J",
+    "description": "1/2\" CELLFLEX\u00ae Low-Loss Foam-Dielectric Coaxial Cable: Outdoor ",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 2.03
+  },
+  {
+    "key": "bom-35",
+    "type": "Coax",
+    "manufacturer": "RFS",
+    "model": "HL4RPV-50",
+    "description": "1/2\" HELIAX\u00ae Plenum Rated Air Dielectric Coaxial Cable - Corrugated Copper - Blue PVDF Jacket \u2013 50-ohm",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 3.5
+  },
+  {
+    "key": "bom-36",
+    "type": "Coax",
+    "manufacturer": "CommScope",
+    "model": "AL4RPV-50 (MOB)",
+    "description": "HELIAX\u00ae Plenum Rated Air Dielectric Coaxial Cable - Corrugated Aluminum - 1/2 in - Off White PVC Jacket",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 3.5
+  },
+  {
+    "key": "bom-37",
+    "type": "Coax",
+    "manufacturer": "RFS",
+    "model": "HCA78-50JPL-A11",
+    "description": "HELIFLEX - 7/8in Air Dielectric Coaxial Cable - Plenum Rated/ Indoor Usage Only",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 5.5
+  },
+  {
+    "key": "bom-38",
+    "type": "GPS",
+    "manufacturer": "RFS",
+    "model": "GKSPEED20-12C",
+    "description": "High speed grounding kit for CELLFLEX\u00ae LCF 12",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 10.32
+  },
+  {
+    "key": "bom-39",
+    "type": "GPS",
+    "manufacturer": "RFS",
+    "model": "43M43FS14 PE-060FFS",
+    "description": "CELLFLEX\u00ae Factory-Fit Jumper Assembly, 1/2\" Low Loss Foam",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 40.87
+  },
+  {
+    "key": "bom-40",
+    "type": "GPS",
+    "manufacturer": "Thor",
+    "model": "F-1GPS-TX/RX",
+    "description": "GPS over Fiber receiver",
+    "vendor": "Thor",
+    "category": "DAS Materials",
+    "unitCost": 1495.0
+  },
+  {
+    "key": "bom-41",
+    "type": "GPS",
+    "manufacturer": null,
+    "model": "TAPE-SF-19X9-B",
+    "description": "Self Fusing Tape, Black ",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 60.99
+  },
+  {
+    "key": "bom-42",
+    "type": "GPS",
+    "manufacturer": "RFS",
+    "model": "WPFG-1",
+    "description": "Weather proofing kit (with Butyl Rubber)",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 13.31
+  },
+  {
+    "key": "bom-43",
+    "type": "GPS",
+    "manufacturer": "ROHN",
+    "model": "FRM225",
+    "description": "60\"H Non-Penetrating Mount TESSCO SKU: 518376",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 191.0
+  },
+  {
+    "key": "bom-44",
+    "type": "GPS",
+    "manufacturer": "ROHN",
+    "model": "FRMMAT",
+    "description": "Mat Kit for FRM Mounts, 42-1/2\"x 36\" x 1/8\" thick. TESSCO SKU: 81998",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 31.2
+  },
+  {
+    "key": "bom-45",
+    "type": "Rack",
+    "manufacturer": "Chatsworth",
+    "model": "30139-719",
+    "description": "Universal Horizontal Cable Manager; 1 RMU; 19\"W ; Single-Sided; Black",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 93.0
+  },
+  {
+    "key": "bom-46",
+    "type": "Rack",
+    "manufacturer": "Chatsworth",
+    "model": "30130-719",
+    "description": "Universal Horizontal Cable Manager; 2 RMU; 19\"W ; Single-Sided; Black",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 95.0
+  },
+  {
+    "key": "bom-47",
+    "type": "Rack",
+    "manufacturer": "Chatsworth",
+    "model": "13698-001",
+    "description": "Duplex Electrical Outlet Box, Zinc",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 14.5
+  },
+  {
+    "key": "bom-48",
+    "type": "Rack",
+    "manufacturer": "Chatsworth",
+    "model": "13703-701",
+    "description": "Floor Drilling Template, Black",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 110.0
+  },
+  {
+    "key": "bom-49",
+    "type": "Rack",
+    "manufacturer": "Hilti",
+    "model": "KWIK BOLT TZ2 WEDGE ANCHOR",
+    "description": "HILTI KWIK Bolt TZ, \u00be\u201d \u2013 5 \u00bd\u201d L.. KWIK BOLT TZ2 WEDGE ANCHOR",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 25.0
+  },
+  {
+    "key": "bom-50",
+    "type": "Rack",
+    "manufacturer": "Chatsworth",
+    "model": "32697-002",
+    "description": "Tool-less Bend Radius Kit for Fiber Patch Cords, Pack of 50, Black",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 135.0
+  },
+  {
+    "key": "bom-51",
+    "type": "Rack",
+    "manufacturer": "Chatsworth",
+    "model": "12293-X19",
+    "description": "Heavy Duty Shelf for 6\u201d (150 mm) Channel, For 19\u201d Rack",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 278.0
+  },
+  {
+    "key": "bom-52",
+    "type": "Rack",
+    "manufacturer": "Chatsworth",
+    "model": "12639-001",
+    "description": "#12-24 Cage Nuts and Screws, Pack of 25, Black",
+    "vendor": "Anixter",
+    "category": "DAS Materials",
+    "unitCost": 63.0
+  },
+  {
+    "key": "bom-53",
+    "type": "Filter",
+    "manufacturer": "SOLiD US",
+    "model": "iBIU_AC",
+    "description": "ALLIANCE iBIU Chassis, AC Version Includes: iMCPU, iMPSU_AC",
+    "vendor": "Solid",
+    "category": "DAS Materials",
+    "unitCost": 2069.08
+  },
+  {
+    "key": "bom-54",
+    "type": "Filter",
+    "manufacturer": "SOLiD US",
+    "model": "iBIU_B",
+    "description": "ALLIANCE Input module, blank",
+    "vendor": "Solid",
+    "category": "DAS Materials",
+    "unitCost": 122.0
+  },
+  {
+    "key": "bom-55",
+    "type": "Splitter",
+    "manufacturer": "SOLiD US",
+    "model": "iMCDU",
+    "description": "ALLIANCE Main Combiner/Divider Unit that is connected to the iBIU chassis to operate as the main iBIU",
+    "vendor": "Solid",
+    "category": "DAS Materials",
+    "unitCost": 482.04
+  },
+  {
+    "key": "bom-56",
+    "type": "Filter",
+    "manufacturer": "SOLiD US",
+    "model": "iMDBU_1900P",
+    "description": "ALLIANCE 1900 MHz Input Module for the iBIU",
+    "vendor": "Solid",
+    "category": "DAS Materials",
+    "unitCost": 1190.28
+  },
+  {
+    "key": "bom-57",
+    "type": "Filter",
+    "manufacturer": "SOLiD US",
+    "model": "iMDBU_AWS13",
+    "description": "ALLIANCE 2100MHz (AWS 1+3) Input Module for the iBIU",
+    "vendor": "Solid",
+    "category": "DAS Materials",
+    "unitCost": 1457.0
+  },
+  {
+    "key": "bom-58",
+    "type": "Filter",
+    "manufacturer": "SOLiD US",
+    "model": "iMDBU_23_25_FB",
+    "description": "ALLIANCE Input module, 2300 WCS, 2500MHz TDD  FB",
+    "vendor": "Solid",
+    "category": "DAS Materials",
+    "unitCost": 2267.2
+  },
+  {
+    "key": "bom-59",
+    "type": "Filter",
+    "manufacturer": "SOLiD US",
+    "model": "HPOI_23_25",
+    "description": "ALLIANCE High Power POI Module (20W), 2300MHz WCS, 2500MHz TDD, 4 Ports",
+    "vendor": "Solid",
+    "category": "DAS Materials",
+    "unitCost": 2244.84
+  },
+  {
+    "key": "bom-60",
+    "type": "Filter",
+    "manufacturer": "SOLiD US",
+    "model": "HLPOI_1900P",
+    "description": "ALLIANCE Hybrid POI Module, 1900 MHz PCS, 2 Ports high power 20W, and 2 Ports low power 100mW",
+    "vendor": "Solid",
+    "category": "DAS Materials",
+    "unitCost": 1632.8
+  },
+  {
+    "key": "bom-61",
+    "type": "Filter",
+    "manufacturer": "SOLiD US",
+    "model": "HLPOI_AWS13",
+    "description": "ALLIANCE Hybrid POI Module, AWS1 &3, 2 Ports high power 20W, and 2 Ports low power 100mW",
+    "vendor": "Solid",
+    "category": "DAS Materials",
+    "unitCost": 1632.8
+  },
+  {
+    "key": "bom-62",
+    "type": "Filter",
+    "manufacturer": "SOLiD US",
+    "model": "LPOI_EB",
+    "description": "Low Power Extender Board, +10dBm max, Simplex only, 136MHz to 2700Mhz",
+    "vendor": "Solid",
+    "category": "DAS Materials",
+    "unitCost": 201.24
+  },
+  {
+    "key": "bom-63",
+    "type": "Media Converter",
+    "manufacturer": "SOLiD US",
+    "model": "eROU_7191725L1_N_R",
+    "description": "edgeROU, Main, 700/1900/AWS13/2500, Lambda 1, Internal Antenna",
+    "vendor": "Solid",
+    "category": "DAS Materials",
+    "unitCost": 2030.0
+  },
+  {
+    "key": "bom-64",
+    "type": "Electrical",
+    "manufacturer": null,
+    "model": "SP104-15",
+    "description": "Geist - SP104-15 Rack Mount Power Strip - Graybar",
+    "vendor": "Graybar",
+    "category": "DAS Materials",
+    "unitCost": 326.0
+  },
+  {
+    "key": "bom-65",
+    "type": "Electrical",
+    "manufacturer": "HD",
+    "model": null,
+    "description": "3/8 x 1 bolts - stainless",
+    "vendor": "HD",
+    "category": "Consumable",
+    "unitCost": 1.0
+  },
+  {
+    "key": "bom-66",
+    "type": "Electrical",
+    "manufacturer": "HD",
+    "model": null,
+    "description": "3/8 flat washers - stainless",
+    "vendor": "HD",
+    "category": "Consumable",
+    "unitCost": 1.0
+  },
+  {
+    "key": "bom-67",
+    "type": "Electrical",
+    "manufacturer": "HD",
+    "model": null,
+    "description": "3/8 lock washers - stainless",
+    "vendor": "HD",
+    "category": "Consumable",
+    "unitCost": 1.0
+  },
+  {
+    "key": "bom-68",
+    "type": "Electrical",
+    "manufacturer": "HD",
+    "model": null,
+    "description": "3/8 nut - stainless",
+    "vendor": "HD",
+    "category": "Consumable",
+    "unitCost": 1.0
+  },
+  {
+    "key": "bom-69",
+    "type": "Cable",
+    "manufacturer": null,
+    "model": null,
+    "description": "1/2 snap-ins",
+    "vendor": "HD",
+    "category": "Consumable",
+    "unitCost": 2.0
+  },
+  {
+    "key": "bom-70",
+    "type": "Cable",
+    "manufacturer": null,
+    "model": null,
+    "description": "Rip-Tie Velcro 1 x 75' Roll Black Wrap Strap",
+    "vendor": null,
+    "category": "Consumable",
+    "unitCost": 80.0
+  },
+  {
+    "key": "bom-71",
+    "type": "Cable",
+    "manufacturer": "HD",
+    "model": null,
+    "description": "14\" black zipties",
+    "vendor": "HD",
+    "category": "Consumable",
+    "unitCost": 0.25
+  },
+  {
+    "key": "bom-72",
+    "type": "Rack Materials",
+    "manufacturer": "HD",
+    "model": null,
+    "description": "1/2 x 4\" concrete anchors",
+    "vendor": "HD",
+    "category": "Consumable",
+    "unitCost": 4.0
+  },
+  {
+    "key": "bom-73",
+    "type": "Rack Materials",
+    "manufacturer": "HD",
+    "model": null,
+    "description": "#10x3/4\" wood screws",
+    "vendor": "HD",
+    "category": "Consumable",
+    "unitCost": 0.2
+  },
+  {
+    "key": "bom-74",
+    "type": "Electrical",
+    "manufacturer": "HD",
+    "model": null,
+    "description": "5/16\" heat shrink",
+    "vendor": "HD",
+    "category": "Consumable",
+    "unitCost": 1.5
+  },
+  {
+    "key": "bom-75",
+    "type": "Electrical",
+    "manufacturer": "HD",
+    "model": null,
+    "description": "#12 Thhn red wire",
+    "vendor": "HD",
+    "category": "Consumable",
+    "unitCost": 0.5
+  },
+  {
+    "key": "bom-76",
+    "type": "Electrical",
+    "manufacturer": "HD",
+    "model": null,
+    "description": "#12 Thhn black wire",
+    "vendor": "HD",
+    "category": "Consumable",
+    "unitCost": 0.5
+  },
+  {
+    "key": "bom-77",
+    "type": "Electrical",
+    "manufacturer": "HD",
+    "model": null,
+    "description": "#12 Thhn white wire",
+    "vendor": "HD",
+    "category": "Consumable",
+    "unitCost": 0.5
+  },
+  {
+    "key": "bom-78",
+    "type": "Electrical",
+    "manufacturer": "HD",
+    "model": null,
+    "description": "#6 1 hole lugs",
+    "vendor": "HD",
+    "category": "Consumable",
+    "unitCost": 3.5
+  },
+  {
+    "key": "bom-79",
+    "type": "Electrical",
+    "manufacturer": "CommScope",
+    "model": "MT-586G-250",
+    "description": "Ground Wire, #6 AWG, stranded insulated, green jacket, 250 ft roll",
+    "vendor": "HD",
+    "category": "Consumable",
+    "unitCost": 2.5
+  },
+  {
+    "key": "bom-80",
+    "type": "Containment",
+    "manufacturer": null,
+    "model": null,
+    "description": "Reinforced Poly Sheeting - 6 Mil, 12' x 100'",
+    "vendor": null,
+    "category": "Consumable",
+    "unitCost": 110.0
+  },
+  {
+    "key": "bom-81",
+    "type": "Containment",
+    "manufacturer": null,
+    "model": null,
+    "description": "Tape Case of 12",
+    "vendor": null,
+    "category": "Consumable",
+    "unitCost": 10.0
+  },
+  {
+    "key": "bom-82",
+    "type": "Respirators",
+    "manufacturer": null,
+    "model": null,
+    "description": "DuPont\u2122\u00a0Tyvek\u00ae\u00a0Deluxe Coverall ",
+    "vendor": null,
+    "category": "Consumable",
+    "unitCost": 60.0
+  },
+  {
+    "key": "bom-83",
+    "type": "Respirators",
+    "manufacturer": null,
+    "model": null,
+    "description": "Masks",
+    "vendor": null,
+    "category": "Consumable",
+    "unitCost": 25.0
+  },
+  {
+    "key": "bom-84",
+    "type": "Respirators",
+    "manufacturer": null,
+    "model": null,
+    "description": "Shoe Covers",
+    "vendor": null,
+    "category": "Consumable",
+    "unitCost": 5.0
+  },
+  {
+    "key": "bom-85",
+    "type": "Respirators",
+    "manufacturer": null,
+    "model": null,
+    "description": "Disinfection Wipes",
+    "vendor": null,
+    "category": "Consumable",
+    "unitCost": 20.0
+  },
+  {
+    "key": "bom-86",
+    "type": "Respirators",
+    "manufacturer": null,
+    "model": null,
+    "description": "Head net",
+    "vendor": null,
+    "category": "Consumable",
+    "unitCost": 10.0
+  }
+]

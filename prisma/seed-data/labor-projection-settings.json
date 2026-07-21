@@ -1,0 +1,8 @@
+{
+  "hoursPerManDay": 8.0,
+  "hoursPerManWeek": 40.0,
+  "stagingMaterialMultiplier": 0.05,
+  "cmPercentOfTechHours": 0.5,
+  "pmPercentOfTechHours": 0.25,
+  "coordinatorPercentOfTechHours": 0.15
+}

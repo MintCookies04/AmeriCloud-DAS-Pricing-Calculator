@@ -1,0 +1,26 @@
+[
+  {
+    "role": "Technician",
+    "hourlyRate": 85.0
+  },
+  {
+    "role": "Construction Manager",
+    "hourlyRate": 95.0
+  },
+  {
+    "role": "RF-Engineer",
+    "hourlyRate": 75.0
+  },
+  {
+    "role": "RF-Technician",
+    "hourlyRate": 75.0
+  },
+  {
+    "role": "Project Coordinator",
+    "hourlyRate": 55.0
+  },
+  {
+    "role": "Project Manager",
+    "hourlyRate": 100.0
+  }
+]

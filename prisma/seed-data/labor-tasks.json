@@ -1,0 +1,1346 @@
+[
+  {
+    "key": "loe-5",
+    "sheet": "LOE",
+    "category": "Antenna",
+    "name": "Adder for Hard lid ceiling",
+    "minutesPerUnit": 10.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-6",
+    "sheet": "LOE",
+    "category": "Antenna",
+    "name": "Install Antenna",
+    "minutesPerUnit": 60.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-7",
+    "sheet": "LOE",
+    "category": "Antenna",
+    "name": "Labeling Antenna",
+    "minutesPerUnit": 1.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-8",
+    "sheet": "LOE",
+    "category": "Antenna",
+    "name": "Develop and Install custom Antenna Mount",
+    "minutesPerUnit": 60.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-10",
+    "sheet": "LOE",
+    "category": "Boring/Trenching/Coring",
+    "name": "Install Pathway Sleeves in existing core",
+    "minutesPerUnit": 10.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-11",
+    "sheet": "LOE",
+    "category": "Boring/Trenching/Coring",
+    "name": "Drill, Sheet Rock. 6\" or less",
+    "minutesPerUnit": 15.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-13",
+    "sheet": "LOE",
+    "category": "Cable Management",
+    "name": "Create structure to install ladder rack to",
+    "minutesPerUnit": 1.0,
+    "unit": "Per Foot",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-14",
+    "sheet": "LOE",
+    "category": "Cable Management",
+    "name": "Create structure to mount Cable tray to",
+    "minutesPerUnit": 1.0,
+    "unit": "Per Foot",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-15",
+    "sheet": "LOE",
+    "category": "Cable Management",
+    "name": "Install ladder rack to exposed structure",
+    "minutesPerUnit": 5.0,
+    "unit": "Per Foot",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-16",
+    "sheet": "LOE",
+    "category": "Cable Management",
+    "name": "Install ladder rack to structure above existing ceiling",
+    "minutesPerUnit": 2.0,
+    "unit": "Per Foot",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-18",
+    "sheet": "LOE",
+    "category": "Coax",
+    "name": "Adder for Hard lid ceiling",
+    "minutesPerUnit": 4.0,
+    "unit": "Per Foot",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-19",
+    "sheet": "LOE",
+    "category": "Coax",
+    "name": "Adder driver for instances of height over 20'",
+    "minutesPerUnit": 4.0,
+    "unit": "Per Foot",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-20",
+    "sheet": "LOE",
+    "category": "Coax",
+    "name": "HEPA Cart and work area containment",
+    "minutesPerUnit": 3.0,
+    "unit": "Per Foot",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-21",
+    "sheet": "LOE",
+    "category": "Coax",
+    "name": "Connectorize captive coax up to half inch",
+    "minutesPerUnit": 15.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-22",
+    "sheet": "LOE",
+    "category": "Coax",
+    "name": "Connectorize compression coax up to half inch",
+    "minutesPerUnit": 10.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-23",
+    "sheet": "LOE",
+    "category": "Coax",
+    "name": "Connectorize captive coax greater than half inch",
+    "minutesPerUnit": 15.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-24",
+    "sheet": "LOE",
+    "category": "Coax",
+    "name": "Connectorize compression coax greater than half inch",
+    "minutesPerUnit": 15.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-25",
+    "sheet": "LOE",
+    "category": "Coax",
+    "name": "Labeling Coax and Category Cable",
+    "minutesPerUnit": 2.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": {
+      "terms": [
+        {
+          "key": "loe-21",
+          "coeff": 1
+        },
+        {
+          "key": "loe-22",
+          "coeff": 1
+        },
+        {
+          "key": "loe-23",
+          "coeff": 1
+        },
+        {
+          "key": "loe-24",
+          "coeff": 1
+        },
+        {
+          "key": "loe-31",
+          "coeff": 1
+        }
+      ],
+      "divisor": 1
+    }
+  },
+  {
+    "key": "loe-26",
+    "sheet": "LOE",
+    "category": "Coax",
+    "name": "Develop and Install custom mount for splitters/couplers",
+    "minutesPerUnit": 15.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-27",
+    "sheet": "LOE",
+    "category": "Coax",
+    "name": "Install combiner/splitters",
+    "minutesPerUnit": 15.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-28",
+    "sheet": "LOE",
+    "category": "Coax",
+    "name": "Labeling for splitter",
+    "minutesPerUnit": 3.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": {
+      "terms": [
+        {
+          "key": "loe-27",
+          "coeff": 4
+        }
+      ],
+      "divisor": 1
+    }
+  },
+  {
+    "key": "loe-29",
+    "sheet": "LOE",
+    "category": "Coax",
+    "name": "Adder - Painting of support, cabling, or conduit in place",
+    "minutesPerUnit": 1.0,
+    "unit": "Per Foot",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-30",
+    "sheet": "LOE",
+    "category": "Coax",
+    "name": "InstallCategory Cable",
+    "minutesPerUnit": 3.0,
+    "unit": "Per Foot",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-31",
+    "sheet": "LOE",
+    "category": "Coax",
+    "name": "Connectorize RG6/Ethernet cable",
+    "minutesPerUnit": 15.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-32",
+    "sheet": "LOE",
+    "category": "Coax",
+    "name": "Test Category Cable (per Drop)",
+    "minutesPerUnit": 15.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": {
+      "terms": [
+        {
+          "key": "loe-31",
+          "coeff": 1
+        }
+      ],
+      "divisor": 2
+    }
+  },
+  {
+    "key": "loe-33",
+    "sheet": "LOE",
+    "category": "Coax",
+    "name": "Sweep Test per line",
+    "minutesPerUnit": 30.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": {
+      "terms": [
+        {
+          "key": "loe-21",
+          "coeff": 1
+        },
+        {
+          "key": "loe-22",
+          "coeff": 1
+        },
+        {
+          "key": "loe-23",
+          "coeff": 1
+        },
+        {
+          "key": "loe-24",
+          "coeff": 1
+        }
+      ],
+      "divisor": 2
+    }
+  },
+  {
+    "key": "loe-35",
+    "sheet": "LOE",
+    "category": "Conduit",
+    "name": "Adder for Hard lid ceiling",
+    "minutesPerUnit": 2.0,
+    "unit": "Per Foot",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-36",
+    "sheet": "LOE",
+    "category": "Conduit",
+    "name": "Adder driver for instances of height over 20'",
+    "minutesPerUnit": 2.0,
+    "unit": "Per Foot",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-37",
+    "sheet": "LOE",
+    "category": "Conduit",
+    "name": "HEPA Cart and work area containment",
+    "minutesPerUnit": 2.0,
+    "unit": "Per Foot",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-38",
+    "sheet": "LOE",
+    "category": "Conduit",
+    "name": "Install seal tight conduit",
+    "minutesPerUnit": 4.0,
+    "unit": "Per Foot",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-39",
+    "sheet": "LOE",
+    "category": "Conduit",
+    "name": "Adder - Painting of support, cabling, or conduit in place",
+    "minutesPerUnit": 1.0,
+    "unit": "Per Foot",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-41",
+    "sheet": "LOE",
+    "category": "Fiber",
+    "name": "Adder for Hard lid ceiling",
+    "minutesPerUnit": 4.0,
+    "unit": "Per Foot",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-42",
+    "sheet": "LOE",
+    "category": "Fiber",
+    "name": "Adder driver for instances of height over 20'",
+    "minutesPerUnit": 4.0,
+    "unit": "Per Foot",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-43",
+    "sheet": "LOE",
+    "category": "Fiber",
+    "name": "Individual Fiber Splicing",
+    "minutesPerUnit": 20.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-44",
+    "sheet": "LOE",
+    "category": "Fiber",
+    "name": "Install Fiber Jumper up to 12 feet ",
+    "minutesPerUnit": 10.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-45",
+    "sheet": "LOE",
+    "category": "Fiber",
+    "name": "Install Hybrid Fiber",
+    "minutesPerUnit": 4.0,
+    "unit": "Per Foot",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-46",
+    "sheet": "LOE",
+    "category": "Fiber",
+    "name": "Labeling Fiber",
+    "minutesPerUnit": 2.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": {
+      "terms": [
+        {
+          "key": "loe-43",
+          "coeff": 1
+        },
+        {
+          "key": "loe-44",
+          "coeff": 2
+        }
+      ],
+      "divisor": 1
+    }
+  },
+  {
+    "key": "loe-47",
+    "sheet": "LOE",
+    "category": "Fiber",
+    "name": "Install adapter - 6 port",
+    "minutesPerUnit": 20.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-48",
+    "sheet": "LOE",
+    "category": "Fiber",
+    "name": "Install Fiber Splice Trays",
+    "minutesPerUnit": 240.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-49",
+    "sheet": "LOE",
+    "category": "Fiber",
+    "name": "Labeling Fiber Housing",
+    "minutesPerUnit": 2.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": {
+      "terms": [
+        {
+          "key": "loe-48",
+          "coeff": 1
+        },
+        {
+          "key": "loe-47",
+          "coeff": 1
+        }
+      ],
+      "divisor": 1
+    }
+  },
+  {
+    "key": "loe-51",
+    "sheet": "LOE",
+    "category": "Head End",
+    "name": "Install alarm panel / modem",
+    "minutesPerUnit": 30.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-52",
+    "sheet": "LOE",
+    "category": "Head End",
+    "name": "External dry contact alarming  setup",
+    "minutesPerUnit": 60.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-53",
+    "sheet": "LOE",
+    "category": "Head End",
+    "name": "Install SNMP Switch",
+    "minutesPerUnit": 60.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-54",
+    "sheet": "LOE",
+    "category": "Head End",
+    "name": "Setup alarm reporting with NOC",
+    "minutesPerUnit": 60.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-55",
+    "sheet": "LOE",
+    "category": "Head End",
+    "name": "Outdoor cabinet installation",
+    "minutesPerUnit": 240.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-56",
+    "sheet": "LOE",
+    "category": "Head End",
+    "name": "Install  19/23\" rack",
+    "minutesPerUnit": 300.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-57",
+    "sheet": "LOE",
+    "category": "Head End",
+    "name": "Install  Rack cable management",
+    "minutesPerUnit": 300.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-58",
+    "sheet": "LOE",
+    "category": "Head End",
+    "name": "Install Fencing per foot -  removal is double cost",
+    "minutesPerUnit": 90.0,
+    "unit": "Per Foot",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-59",
+    "sheet": "LOE",
+    "category": "Head End",
+    "name": "Provide and install CELL LOG book, chair, and broom",
+    "minutesPerUnit": 30.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-60",
+    "sheet": "LOE",
+    "category": "Head End",
+    "name": "Install Smoke Detector (tied into building Alarm system)",
+    "minutesPerUnit": 60.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-61",
+    "sheet": "LOE",
+    "category": "Head End",
+    "name": "HEPA Cart and work area containment",
+    "minutesPerUnit": 180.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-62",
+    "sheet": "LOE",
+    "category": "Head End",
+    "name": "Add Card to DAS Equipment",
+    "minutesPerUnit": 10.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-63",
+    "sheet": "LOE",
+    "category": "Head End",
+    "name": "Install DAS Headend equipment including grounding to rack",
+    "minutesPerUnit": 120.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-64",
+    "sheet": "LOE",
+    "category": "Head End",
+    "name": "Install SIAD - complete cabled system ",
+    "minutesPerUnit": 60.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-65",
+    "sheet": "LOE",
+    "category": "Head End",
+    "name": "Install passive DAS component",
+    "minutesPerUnit": 25.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-66",
+    "sheet": "LOE",
+    "category": "Head End",
+    "name": "Install Remote",
+    "minutesPerUnit": 60.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-67",
+    "sheet": "LOE",
+    "category": "Head End",
+    "name": "Labeling DAS Equipment",
+    "minutesPerUnit": 2.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": {
+      "terms": [
+        {
+          "key": "loe-65",
+          "coeff": 1
+        },
+        {
+          "key": "loe-64",
+          "coeff": 1
+        },
+        {
+          "key": "loe-63",
+          "coeff": 1
+        },
+        {
+          "key": "loe-62",
+          "coeff": 1
+        },
+        {
+          "key": "loe-56",
+          "coeff": 1
+        },
+        {
+          "key": "loe-57",
+          "coeff": 1
+        }
+      ],
+      "divisor": 1
+    }
+  },
+  {
+    "key": "loe-69",
+    "sheet": "LOE",
+    "category": "Power/Ground",
+    "name": "Install Chemical Grounding Rod",
+    "minutesPerUnit": 120.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-70",
+    "sheet": "LOE",
+    "category": "Power/Ground",
+    "name": "Grounding System - tie into existing indoor ground",
+    "minutesPerUnit": 60.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-71",
+    "sheet": "LOE",
+    "category": "Power/Ground",
+    "name": "Labeling for Grounding (includes everything GRND)",
+    "minutesPerUnit": 2.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": {
+      "terms": [
+        {
+          "key": "loe-83",
+          "coeff": 1
+        },
+        {
+          "key": "loe-72",
+          "coeff": 1
+        },
+        {
+          "key": "loe-73",
+          "coeff": 1
+        },
+        {
+          "key": "loe-75",
+          "coeff": 1
+        },
+        {
+          "key": "loe-76",
+          "coeff": 1
+        },
+        {
+          "key": "loe-77",
+          "coeff": 1
+        },
+        {
+          "key": "loe-78",
+          "coeff": 1
+        },
+        {
+          "key": "loe-79",
+          "coeff": 1
+        },
+        {
+          "key": "loe-82",
+          "coeff": 1
+        },
+        {
+          "key": "loe-70",
+          "coeff": 1
+        }
+      ],
+      "divisor": 1
+    }
+  },
+  {
+    "key": "loe-72",
+    "sheet": "LOE",
+    "category": "Power/Ground",
+    "name": "Install Main Ground Bar",
+    "minutesPerUnit": 20.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-73",
+    "sheet": "LOE",
+    "category": "Power/Ground",
+    "name": "Install 19\"/23\" Power Plant in Existing Rack",
+    "minutesPerUnit": 480.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-74",
+    "sheet": "LOE",
+    "category": "Power/Ground",
+    "name": "Composite cable dressing/ DC connections per copper strand",
+    "minutesPerUnit": 2.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-75",
+    "sheet": "LOE",
+    "category": "Power/Ground",
+    "name": "Install AC fuse Panel",
+    "minutesPerUnit": 520.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-76",
+    "sheet": "LOE",
+    "category": "Power/Ground",
+    "name": "Install Breakers into existing panel",
+    "minutesPerUnit": 10.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-77",
+    "sheet": "LOE",
+    "category": "Power/Ground",
+    "name": "Install DC Fuse Panel",
+    "minutesPerUnit": 60.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-78",
+    "sheet": "LOE",
+    "category": "Power/Ground",
+    "name": "Install Rectifiers",
+    "minutesPerUnit": 10.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-79",
+    "sheet": "LOE",
+    "category": "Power/Ground",
+    "name": "AC Panel Install",
+    "minutesPerUnit": 360.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-80",
+    "sheet": "LOE",
+    "category": "Power/Ground",
+    "name": "3 Phase Subpanel Install",
+    "minutesPerUnit": 360.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-81",
+    "sheet": "LOE",
+    "category": "Power/Ground",
+    "name": "EMON/DMON Meter Install",
+    "minutesPerUnit": 360.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-82",
+    "sheet": "LOE",
+    "category": "Power/Ground",
+    "name": "Install UPS - stand alone AC powered",
+    "minutesPerUnit": 240.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-83",
+    "sheet": "LOE",
+    "category": "Power/Ground",
+    "name": "Connectorize and connect Power/Grounding cables",
+    "minutesPerUnit": 15.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-85",
+    "sheet": "LOE",
+    "category": "Remote",
+    "name": "Install 19/23\" rack on existing concrete slab",
+    "minutesPerUnit": 180.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-86",
+    "sheet": "LOE",
+    "category": "Remote",
+    "name": "Install 19/23\" rack on existing raised floor",
+    "minutesPerUnit": 180.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-87",
+    "sheet": "LOE",
+    "category": "Remote",
+    "name": "Install empty cabinet",
+    "minutesPerUnit": 180.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-88",
+    "sheet": "LOE",
+    "category": "Remote",
+    "name": "Adder driver for instances of height 50+'",
+    "minutesPerUnit": 60.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-89",
+    "sheet": "LOE",
+    "category": "Remote",
+    "name": "Install backboard",
+    "minutesPerUnit": 60.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-90",
+    "sheet": "LOE",
+    "category": "Remote",
+    "name": "Labeling DAS Equipment",
+    "minutesPerUnit": 2.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-91",
+    "sheet": "LOE",
+    "category": "Remote",
+    "name": "Install Expansion Hub",
+    "minutesPerUnit": 30.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-92",
+    "sheet": "LOE",
+    "category": "Remote",
+    "name": "Install Remote",
+    "minutesPerUnit": 60.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-94",
+    "sheet": "LOE",
+    "category": "Rooftop",
+    "name": "Work near rooftop edge",
+    "minutesPerUnit": 0.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-95",
+    "sheet": "LOE",
+    "category": "Rooftop",
+    "name": "Weather proofing for Antenna",
+    "minutesPerUnit": 15.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-97",
+    "sheet": "LOE",
+    "category": "DAS Turn-Up",
+    "name": "Greenlight DAS / clear all alarms per remote",
+    "minutesPerUnit": 25.0,
+    "unit": "Each",
+    "laborRole": "RF-Engineer",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-98",
+    "sheet": "LOE",
+    "category": "DAS Turn-Up",
+    "name": "Walk Testing per antenna per operator",
+    "minutesPerUnit": 3.0,
+    "unit": "Each",
+    "laborRole": "RF-Engineer",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-100",
+    "sheet": "LOE",
+    "category": "Decommissioning",
+    "name": "Decomm Batteries",
+    "minutesPerUnit": 30.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-101",
+    "sheet": "LOE",
+    "category": "Decommissioning",
+    "name": "Decomm DAS antennas",
+    "minutesPerUnit": 10.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-103",
+    "sheet": "LOE",
+    "category": "Documentation",
+    "name": "Complete close out package",
+    "minutesPerUnit": 1200.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-105",
+    "sheet": "LOE",
+    "category": "Site Walk",
+    "name": "Site Audit/Precon Survey",
+    "minutesPerUnit": 480.0,
+    "unit": "Each",
+    "laborRole": "Construction Manager",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "loe-106",
+    "sheet": "LOE",
+    "category": "Site Walk",
+    "name": "Benchmark Post Process (per carrier / Building)",
+    "minutesPerUnit": 240.0,
+    "unit": "Each",
+    "laborRole": "RF-Engineer",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "sow-4",
+    "sheet": "SOW",
+    "category": "Structure Support Labor",
+    "name": "6x2 Ladder Rack 20'/hr",
+    "minutesPerUnit": 5.1899999999999995,
+    "unit": "Per Foot",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "sow-5",
+    "sheet": "SOW",
+    "category": "Structure Support Labor",
+    "name": "24x4 Ladder Rack 10'/hr",
+    "minutesPerUnit": 10.379999999999999,
+    "unit": "Per Foot",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "sow-6",
+    "sheet": "SOW",
+    "category": "Structure Support Labor",
+    "name": "24x4 Wire Basket 10'/hr",
+    "minutesPerUnit": 10.379999999999999,
+    "unit": "Per Foot",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "sow-7",
+    "sheet": "SOW",
+    "category": "Structure Support Labor",
+    "name": "1\" Conduit 40'/hr -Bend/Cut",
+    "minutesPerUnit": 3.114,
+    "unit": "Per Foot",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "sow-8",
+    "sheet": "SOW",
+    "category": "Structure Support Labor",
+    "name": "2\" Conduit 20'/hr -Bend/Cut",
+    "minutesPerUnit": 5.709,
+    "unit": "Per Foot",
+    "laborRole": "Technician",
+    "includedInSubtotal": false,
+    "derivedFrom": null
+  },
+  {
+    "key": "sow-9",
+    "sheet": "SOW",
+    "category": "Structure Support Labor",
+    "name": "4\" Conduit 20'/hr",
+    "minutesPerUnit": 5.1899999999999995,
+    "unit": "Per Foot",
+    "laborRole": "Technician",
+    "includedInSubtotal": false,
+    "derivedFrom": null
+  },
+  {
+    "key": "sow-10",
+    "sheet": "SOW",
+    "category": "Structure Support Labor",
+    "name": "6\" Conduit 20'/hr",
+    "minutesPerUnit": 5.1899999999999995,
+    "unit": "Per Foot",
+    "laborRole": "Technician",
+    "includedInSubtotal": false,
+    "derivedFrom": null
+  },
+  {
+    "key": "sow-12",
+    "sheet": "SOW",
+    "category": "Backbone Cabling Labor",
+    "name": "25-Pair CAT3 ABAM (per ft)",
+    "minutesPerUnit": 2.5949999999999998,
+    "unit": "Per Foot",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "sow-13",
+    "sheet": "SOW",
+    "category": "Backbone Cabling Labor",
+    "name": "12-Strand Fusion Pigtails",
+    "minutesPerUnit": 134.94,
+    "unit": "Per Foot",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "sow-14",
+    "sheet": "SOW",
+    "category": "Backbone Cabling Labor",
+    "name": "24-Strand Fusion Pigtails",
+    "minutesPerUnit": 269.88,
+    "unit": "Per Foot",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "sow-15",
+    "sheet": "SOW",
+    "category": "Backbone Cabling Labor",
+    "name": "48-Strand Fusion Pigtails",
+    "minutesPerUnit": 539.76,
+    "unit": "Per Foot",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "sow-16",
+    "sheet": "SOW",
+    "category": "Backbone Cabling Labor",
+    "name": "Splice Trays/Cabinets",
+    "minutesPerUnit": 259.5,
+    "unit": "Per Foot",
+    "laborRole": "Technician",
+    "includedInSubtotal": false,
+    "derivedFrom": null
+  },
+  {
+    "key": "sow-18",
+    "sheet": "SOW",
+    "category": "Demolition",
+    "name": "Trunk Demo <150ft",
+    "minutesPerUnit": 155.7,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "sow-19",
+    "sheet": "SOW",
+    "category": "Demolition",
+    "name": "Trunk Demo >150ft",
+    "minutesPerUnit": 207.6,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "sow-20",
+    "sheet": "SOW",
+    "category": "Demolition",
+    "name": "Relay Rack Demo",
+    "minutesPerUnit": 415.2,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "sow-24",
+    "sheet": "SOW",
+    "category": "Miscellaneous",
+    "name": "Contingency",
+    "minutesPerUnit": 60.0,
+    "unit": 0.1,
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "sow-25",
+    "sheet": "SOW",
+    "category": "Miscellaneous",
+    "name": "Contingency",
+    "minutesPerUnit": 60.0,
+    "unit": "Each",
+    "laborRole": "Construction Manager",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "sow-26",
+    "sheet": "SOW",
+    "category": "Miscellaneous",
+    "name": "A&E Site walk - KH",
+    "minutesPerUnit": 60.0,
+    "unit": "Each",
+    "laborRole": "Construction Manager",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  },
+  {
+    "key": "sow-27",
+    "sheet": "SOW",
+    "category": "Miscellaneous",
+    "name": "Excess cable removal",
+    "minutesPerUnit": 60.0,
+    "unit": "Each",
+    "laborRole": "Technician",
+    "includedInSubtotal": true,
+    "derivedFrom": null
+  }
+]
