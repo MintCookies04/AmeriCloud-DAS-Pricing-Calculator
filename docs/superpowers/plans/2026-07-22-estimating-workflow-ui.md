@@ -368,7 +368,15 @@ Expected: installs without error.
 ```ts
 // vitest.setup.ts
 import '@testing-library/jest-dom/vitest';
+import { afterEach } from 'vitest';
+import { cleanup } from '@testing-library/react';
+
+afterEach(() => {
+  cleanup();
+});
 ```
+
+*Note: the `afterEach(cleanup)` is required because this project doesn't enable Vitest's `globals` option — without it, Testing Library doesn't auto-unmount between tests and component tests collide (duplicate rendered elements).*
 
 - [ ] **Step 3: Wire the setup file into Vitest config**
 
@@ -388,8 +396,13 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  esbuild: {
+    jsx: 'automatic',
+  },
 });
 ```
+
+*Note: `esbuild.jsx: 'automatic'` is required for `.tsx` test files — Vitest's esbuild pipeline doesn't read `tsconfig.json`'s `jsx: "preserve"`, so without this JSX in tests fails with `React is not defined`.*
 
 - [ ] **Step 4: Write the failing test for `upsertLine`**
 
