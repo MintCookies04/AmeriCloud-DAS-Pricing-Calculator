@@ -33,7 +33,7 @@ function mapRole(role: LaborRoleName): LaborRole {
   return mapped;
 }
 
-function parseDerivedFrom(json: unknown, taskKey: string): LaborTaskDerivation | null {
+export function parseDerivedFrom(json: unknown, taskKey: string): LaborTaskDerivation | null {
   if (json === null || json === undefined) return null;
   if (
     typeof json !== 'object' ||
