@@ -2,8 +2,24 @@
 'use client';
 
 import { useState } from 'react';
+import dynamic from 'next/dynamic';
 import { useEstimate } from '@/lib/estimate/EstimateContext';
 import { formatCurrency } from '@/lib/utils/formatCurrency';
+import { EstimatePdfDocument } from '@/components/EstimatePdfDocument';
+import { pdfFileName } from '@/lib/utils/pdfFileName';
+
+// PDFDownloadLink's TypeScript types (as of @react-pdf/renderer 3.4.x) declare
+// `children` as `ReactNode | ReactElement<BlobProviderParams>`, which does not
+// admit a render-prop function even though the runtime implementation calls
+// `children(instance)` when `children` is a function (verified against the
+// library's browser build). BlobProvider's `children` is correctly typed as
+// `(params: BlobProviderParams) => ReactNode`, so it is used here instead to
+// build the same "anchor that downloads the generated blob" behavior without
+// fighting an upstream type definition bug.
+const BlobProvider = dynamic(
+  () => import('@react-pdf/renderer').then((mod) => mod.BlobProvider),
+  { ssr: false },
+);
 
 function Row({
   label,
@@ -25,7 +41,7 @@ function Row({
 }
 
 export default function SummaryPage() {
-  const { result, input, setMarkups } = useEstimate();
+  const { result, input, setMarkups, coverInfo } = useEstimate();
   const es = result.executiveSummary;
   const [venueVisible, setVenueVisible] = useState(false);
   const [venueSqft, setVenueSqft] = useState(0);
@@ -33,6 +49,18 @@ export default function SummaryPage() {
   return (
     <div className="space-y-6 max-w-3xl">
       <h1 className="font-display text-2xl text-navy">Executive Summary</h1>
+
+      <BlobProvider document={<EstimatePdfDocument coverInfo={coverInfo} result={result} />}>
+        {({ url, loading }) => (
+          <a
+            href={url ?? undefined}
+            download={pdfFileName(coverInfo.client, coverInfo.project)}
+            className="inline-block bg-red hover:bg-red-700 text-white font-display font-semibold px-6 py-3 rounded transition-colors"
+          >
+            {loading ? 'Preparing PDF…' : 'Export PDF'}
+          </a>
+        )}
+      </BlobProvider>
 
       <section className="bg-white rounded-lg shadow p-4">
         <h2 className="font-display text-lg text-navy mb-2">Labor</h2>
