@@ -1981,8 +1981,16 @@ import dynamic from 'next/dynamic';
 import { EstimatePdfDocument } from '@/components/EstimatePdfDocument';
 import { pdfFileName } from '@/lib/utils/pdfFileName';
 
-const PDFDownloadLink = dynamic(
-  () => import('@react-pdf/renderer').then((mod) => mod.PDFDownloadLink),
+// PDFDownloadLink's TypeScript types (as of @react-pdf/renderer 3.4.x) declare
+// `children` as `ReactNode | ReactElement<BlobProviderParams>`, which does not
+// admit a render-prop function even though the runtime implementation calls
+// `children(instance)` when `children` is a function (verified against the
+// library's browser build). BlobProvider's `children` is correctly typed as
+// `(params: BlobProviderParams) => ReactNode`, so it is used here instead to
+// build the same "anchor that downloads the generated blob" behavior without
+// fighting an upstream type definition bug.
+const BlobProvider = dynamic(
+  () => import('@react-pdf/renderer').then((mod) => mod.BlobProvider),
   { ssr: false },
 );
 ```
@@ -1996,13 +2004,17 @@ const { result, input, setMarkups, coverInfo } = useEstimate();
 Add this button right after the `<h1>` heading:
 
 ```tsx
-      <PDFDownloadLink
-        document={<EstimatePdfDocument coverInfo={coverInfo} result={result} />}
-        fileName={pdfFileName(coverInfo.client, coverInfo.project)}
-        className="inline-block bg-red hover:bg-red-700 text-white font-display font-semibold px-6 py-3 rounded transition-colors"
-      >
-        {({ loading }: { loading: boolean }) => (loading ? 'Preparing PDF…' : 'Export PDF')}
-      </PDFDownloadLink>
+      <BlobProvider document={<EstimatePdfDocument coverInfo={coverInfo} result={result} />}>
+        {({ url, loading }) => (
+          <a
+            href={url ?? undefined}
+            download={pdfFileName(coverInfo.client, coverInfo.project)}
+            className="inline-block bg-red hover:bg-red-700 text-white font-display font-semibold px-6 py-3 rounded transition-colors"
+          >
+            {loading ? 'Preparing PDF…' : 'Export PDF'}
+          </a>
+        )}
+      </BlobProvider>
 ```
 
 - [ ] **Step 8: Run tests, type-check, and build**
