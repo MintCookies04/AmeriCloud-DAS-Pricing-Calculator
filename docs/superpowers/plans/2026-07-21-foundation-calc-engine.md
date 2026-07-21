@@ -1547,6 +1547,23 @@ describe('calculateLabor', () => {
     const derivedHours = (4 * 2) / 60;
     expect(result.grandHours).toBeCloseTo(sowHours + loeHours + derivedHours, 8);
   });
+
+  it('throws on a circular derivedFrom reference between two tasks', () => {
+    const circularTasks: LaborTask[] = [
+      {
+        key: 'circ-a', sheet: 'LOE', category: 'Coax', name: 'Circular task A', minutesPerUnit: 5, unit: 'Each',
+        laborRole: 'Technician', includedInSubtotal: true,
+        derivedFrom: { terms: [{ key: 'circ-b', coeff: 1 }], divisor: 1 },
+      },
+      {
+        key: 'circ-b', sheet: 'LOE', category: 'Coax', name: 'Circular task B', minutesPerUnit: 5, unit: 'Each',
+        laborRole: 'Technician', includedInSubtotal: true,
+        derivedFrom: { terms: [{ key: 'circ-a', coeff: 1 }], divisor: 1 },
+      },
+    ];
+
+    expect(() => calculateLabor(circularTasks, [], [], rates)).toThrow(/circular/i);
+  });
 });
 ```
 
@@ -1643,7 +1660,7 @@ export function calculateLabor(
 - [ ] **Step 4: Run tests to verify they pass**
 
 Run: `npx vitest run src/lib/calc/labor.test.ts`
-Expected: PASS (4 tests)
+Expected: PASS (5 tests)
 
 - [ ] **Step 5: Commit**
 
@@ -2361,7 +2378,7 @@ Expected: PASS (2 tests)
 - [ ] **Step 5: Run the full test suite**
 
 Run: `npm test`
-Expected: All test files pass (materials, labor, crew, passThroughs, executiveSummary, index, cn — 28 tests total across all Task 1–11 test files).
+Expected: All test files pass (materials, labor, crew, passThroughs, executiveSummary, index, cn — exact total may differ slightly from early estimates; verify by reading vitest's own summary line rather than a hardcoded count).
 
 - [ ] **Step 6: Commit**
 
