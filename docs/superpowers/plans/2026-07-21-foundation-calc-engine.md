@@ -20,6 +20,11 @@
 
 ---
 
+## Plan Amendments (post-review)
+
+- **Task 2 review finding, approved by user:** `LaborProjectionSettings.id` and `EstimateDefaults.id` use `@default("singleton")` instead of `@default(cuid())`, so callers can always upsert against the known id `"singleton"` rather than doing find-first-then-create-or-update. Task 4's seed script below already reflects this (uses `upsert({ where: { id: 'singleton' }, ... })` for both models). Applied in commit `a00b4f7`.
+- **Task 2 review finding, kept as-is by user:** monetary/percentage fields remain `Float` rather than `Decimal` — matches the source workbook's own double-precision arithmetic and avoids reworking Tasks 5–11's calculation engine to use decimal arithmetic for a precision risk that doesn't apply at these magnitudes.
+
 ### Task 1: Project scaffold — Next.js, TypeScript, Tailwind, brand theme
 
 **Files:**
@@ -399,7 +404,7 @@ model CrewSizeRow {
 }
 
 model LaborProjectionSettings {
-  id                          String @id @default(cuid())
+  id                          String @id @default("singleton")
   hoursPerManDay              Float
   hoursPerManWeek             Float
   stagingMaterialMultiplier   Float
@@ -440,7 +445,7 @@ model SoftCostRate {
 }
 
 model EstimateDefaults {
-  id                    String @id @default(cuid())
+  id                    String @id @default("singleton")
   laborMarkupPct        Float
   passThroughMarkupPct  Float
   materialMarkupPct     Float
@@ -912,12 +917,11 @@ async function main() {
   }
 
   const settings = readJson<SeedLaborProjectionSettings>('labor-projection-settings.json');
-  const existingSettings = await prisma.laborProjectionSettings.findFirst();
-  if (existingSettings) {
-    await prisma.laborProjectionSettings.update({ where: { id: existingSettings.id }, data: settings });
-  } else {
-    await prisma.laborProjectionSettings.create({ data: settings });
-  }
+  await prisma.laborProjectionSettings.upsert({
+    where: { id: 'singleton' },
+    create: { id: 'singleton', ...settings },
+    update: settings,
+  });
 
   const passThroughRates = readJson<SeedPassThroughRates>('pass-through-rates.json');
   for (const r of passThroughRates.perDiemRateByRole) {
@@ -951,7 +955,6 @@ async function main() {
     await prisma.softCostRate.upsert({ where: { key: r.key }, create: r, update: r });
   }
 
-  const existingDefaults = await prisma.estimateDefaults.findFirst();
   const defaults = {
     laborMarkupPct: 0.25,
     passThroughMarkupPct: 0.25,
@@ -960,11 +963,11 @@ async function main() {
     taxRate: 0.0825,
     contingencyPct: 0.10,
   };
-  if (existingDefaults) {
-    await prisma.estimateDefaults.update({ where: { id: existingDefaults.id }, data: defaults });
-  } else {
-    await prisma.estimateDefaults.create({ data: defaults });
-  }
+  await prisma.estimateDefaults.upsert({
+    where: { id: 'singleton' },
+    create: { id: 'singleton', ...defaults },
+    update: defaults,
+  });
 
   console.log(
     `Seeded ${materialItems.length} material items, ${laborTasks.length} labor tasks, ` +
