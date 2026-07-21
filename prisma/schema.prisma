@@ -70,7 +70,7 @@ model CrewSizeRow {
 }
 
 model LaborProjectionSettings {
-  id                          String @id @default(cuid())
+  id                          String @id @default("singleton")
   hoursPerManDay              Float
   hoursPerManWeek             Float
   stagingMaterialMultiplier   Float
@@ -111,7 +111,7 @@ model SoftCostRate {
 }
 
 model EstimateDefaults {
-  id                    String @id @default(cuid())
+  id                    String @id @default("singleton")
   laborMarkupPct        Float
   passThroughMarkupPct  Float
   materialMarkupPct     Float
