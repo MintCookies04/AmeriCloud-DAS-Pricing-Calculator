@@ -28,7 +28,10 @@
     "autoprefixer": "^10.4.19",
     "prisma": "^5.16.1",
     "vitest": "^1.6.0",
-    "tsx": "^4.16.2"
+    "tsx": "^4.16.2",
+    "@testing-library/react": "^16.0.0",
+    "@testing-library/jest-dom": "^6.4.8",
+    "jsdom": "^24.1.1"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
