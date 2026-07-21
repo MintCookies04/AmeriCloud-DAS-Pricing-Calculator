@@ -40,16 +40,26 @@ Notable correctness findings made and fixed during this phase (see the plan's "P
 - The workbook's own "Net Profit $$" and "Break-Even" panel formulas have apparent copy-paste bugs (reference pre-corporate-markup figures instead of post-markup ones). Per explicit user decision, this port computes the economically-consistent version instead of replicating the bug — this does **not** affect the Grand Total to Bid chain, which is traced and reproduced exactly.
 - `LaborProjectionSettings` and `EstimateDefaults` use a fixed `id: 'singleton'` (not `cuid()`) for deterministic upserts, since each holds exactly one row.
 
+## Status: Estimating Workflow UI — COMPLETE (pending merge to master)
+
+Plan: `docs/superpowers/plans/2026-07-22-estimating-workflow-ui.md` (amended mid-implementation to record the `BlobProvider`/`PDFDownloadLink` decision below — read its "Plan Amendments" for full detail).
+
+Delivered, built as 9 sequential tasks (each independently task-reviewed, then a final whole-branch review on all 9 together):
+- Cover Info (landing page), Materials, Labor (LOE + Additional SOW's + Crew Planner), Pass Throughs, and Executive Summary pages, all reading/writing one shared `EstimateInput` via `EstimateContext` — every displayed number (page bodies, sticky summary strip, PDF) derives from a single `buildEstimateResult(input, referenceData)` memo, so there's no duplicated math or state drift between pages
+- Collapsible sidebar nav + sticky summary strip app shell
+- Client-side PDF export via `@react-pdf/renderer`
+- Both Plan 1 follow-ups closed: a real-seed-data integration test through `buildEstimateResult()`, and an explicitly validated `derivedFromJson` (Prisma `Json?`) → `LaborTaskDerivation` round-trip in the Prisma-to-`ReferenceData` loader
+- Verified: `tsc --noEmit` clean, 54/54 tests passing (14 files), `npm run build` succeeds (8 routes)
+
+Notable finding from the final whole-branch review (architectural, not a bug — read before starting Plan 3):
+- `src/app/layout.tsx` fetches reference data in an `async` Server Component with no `dynamic`/`revalidate` export, so `npm run build` **prerenders all routes as fully static**, with the material/labor catalog baked into the RSC payload at build time. This is fine for Plan 2's read-only scope, but once Plan 3's Admin Area lets users edit reference data, those edits will **not** appear on the estimating pages until a full redeploy. Add `export const dynamic = 'force-dynamic'` (or a `revalidate` value) to `src/app/layout.tsx` when Plan 3 lands, before wiring up any admin CRUD screens.
+
+Deferred (Minor, non-blocking, noted for future polish): PDF generation (`BlobProvider`) regenerates on every summary-page keystroke instead of gating behind the Export click; `pdfFileName.ts` doesn't sanitize filesystem-unsafe characters from client/project names; `Number(e.target.value)` produces `NaN` on empty/partial numeric input across several pages (a shared `parseNumericInput` helper would close this in one place); `EstimateContext`'s value/setters aren't memoized (confirmed low blast radius at the current one-page-per-route structure, revisit if that changes).
+
 ## What to do next
 
-Two follow-up items were flagged by the final whole-branch review as the right **opening work** for the next phase (not blockers for the merged foundation):
+Per the design spec, one plan remains:
 
-1. Add an integration test that loads the real `prisma/seed-data/*.json` through `buildEstimateResult()` (not just the small hand-built fixtures used in unit tests) and asserts against a hand-verified Grand Total — proves the engine is correct against real data, not just internally consistent.
-2. Own the mapping between the DB's untyped `LaborTask.derivedFromJson` (Prisma `Json?`) and the calc engine's typed `LaborTaskDerivation | null` shape — nothing currently proves this round-trips correctly; whoever writes the Prisma-to-`ReferenceData` loader must validate it explicitly.
+- **Plan 3 — Admin Area:** CRUD screens for all editable reference data (material catalog, labor task library, labor rates, crew-size table, pass-through rate defaults, markup/tax defaults). **Read the build-time-static-data note above first** — it directly affects how Admin's edits reach the estimating pages.
 
-Then, per the design spec, two more plans remain:
-
-- **Plan 2 — Estimating Workflow UI:** Cover Info (landing page), Materials, Labor (LOE + Additional SOW's + Crew Planner), Pass Throughs, Executive Summary pages; collapsible sidebar nav + sticky summary strip; PDF export.
-- **Plan 3 — Admin Area:** CRUD screens for all editable reference data (material catalog, labor task library, labor rates, crew-size table, pass-through rate defaults, markup/tax defaults).
-
-Minor items noted for later (non-blocking): the Materials `percentOfTotal` display field's denominator should be reconciled against the workbook's display column when the Materials page is built; the crew-size technician-count input should be constrained to 1–20 in the UI; consider `next/font` instead of the current Google Fonts `@import` in `globals.css`.
+Minor items noted for later (non-blocking): the Materials `percentOfTotal` display field's denominator should be reconciled against the workbook's display column; the crew-size technician-count input should be constrained to 1–20 in the UI; consider `next/font` instead of the current Google Fonts `@import` in `globals.css`.
