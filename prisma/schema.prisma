@@ -1,0 +1,122 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum MaterialCategory {
+  Consumable
+  DAS_Materials  @map("DAS Materials")
+  BAT_Materials  @map("BAT Materials")
+}
+
+enum LaborRoleName {
+  Technician
+  Construction_Manager  @map("Construction Manager")
+  RF_Engineer           @map("RF-Engineer")
+  RF_Technician         @map("RF-Technician")
+  Project_Coordinator   @map("Project Coordinator")
+  Project_Manager       @map("Project Manager")
+}
+
+enum LaborSheet {
+  LOE
+  SOW
+}
+
+model MaterialItem {
+  id           String            @id @default(cuid())
+  key          String            @unique
+  type         String
+  manufacturer String?
+  model        String?
+  description  String
+  vendor       String?
+  category     MaterialCategory
+  unitCost     Float
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+}
+
+model LaborTask {
+  id                  String        @id @default(cuid())
+  key                 String        @unique
+  sheet               LaborSheet
+  category            String
+  name                String
+  minutesPerUnit      Float
+  unit                String
+  laborRole           LaborRoleName
+  includedInSubtotal  Boolean       @default(true)
+  derivedFromJson      Json?        // { terms: { key: string; coeff: number }[]; divisor: number } | null
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
+}
+
+model LaborRate {
+  id         String        @id @default(cuid())
+  role       LaborRoleName @unique
+  hourlyRate Float
+  updatedAt  DateTime      @updatedAt
+}
+
+model CrewSizeRow {
+  id               String @id @default(cuid())
+  technicianCount  Int    @unique
+  cmsNeeded        Int
+}
+
+model LaborProjectionSettings {
+  id                          String @id @default(cuid())
+  hoursPerManDay              Float
+  hoursPerManWeek             Float
+  stagingMaterialMultiplier   Float
+  cmPercentOfTechHours        Float
+  pmPercentOfTechHours        Float
+  coordinatorPercentOfTechHours Float
+  updatedAt                   DateTime @updatedAt
+}
+
+enum PassThroughRateKind {
+  PerDiem
+  Lodging
+  Airfare
+}
+
+model PassThroughRoleRate {
+  id     String              @id @default(cuid())
+  kind   PassThroughRateKind
+  role   LaborRoleName
+  amount Float
+
+  @@unique([kind, role])
+}
+
+model RentalRate {
+  id     String @id @default(cuid())
+  key    String @unique
+  name   String
+  rate   Float
+  unit   String
+}
+
+model SoftCostRate {
+  id   String @id @default(cuid())
+  key  String @unique
+  name String
+  fee  Float
+}
+
+model EstimateDefaults {
+  id                    String @id @default(cuid())
+  laborMarkupPct        Float
+  passThroughMarkupPct  Float
+  materialMarkupPct     Float
+  corporateMarkupPct    Float
+  taxRate               Float
+  contingencyPct        Float
+  updatedAt             DateTime @updatedAt
+}
