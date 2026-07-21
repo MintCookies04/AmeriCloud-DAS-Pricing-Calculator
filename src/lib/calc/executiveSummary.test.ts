@@ -83,6 +83,66 @@ describe('calculateExecutiveSummary', () => {
     expect(result.grandTotalToBidTaxExempt).toBeCloseTo(result.projectedNetMarginTotal, 6);
   });
 
+  it('computes total direct cost break-even from independently-derived labor, pass-through, and material costs', () => {
+    const result = calculateExecutiveSummary(labor, crewPlan, passThroughs, materials, settings, markups);
+    const expectedLaborCost = labor.grandCost * (1 + settings.stagingMaterialMultiplier) +
+      crewPlan.opsAdminLaborTotal.cost + passThroughs.travelTotal;
+    const expectedPassThroughCost = passThroughs.perDiemTotal + passThroughs.lodgingTotal +
+      passThroughs.airfareTotal + passThroughs.rentalsTotal + passThroughs.softCostsTotal;
+    const expectedMaterialCost = materials.hardwareTotal;
+    const expectedBreakEven = expectedLaborCost + expectedPassThroughCost + expectedMaterialCost;
+    expect(result.totalDirectCostBreakEven).toBeCloseTo(expectedBreakEven, 6);
+  });
+
+  it('computes gross profit, markup percent, and gross margin percent from independently-derived totals', () => {
+    const result = calculateExecutiveSummary(labor, crewPlan, passThroughs, materials, settings, markups);
+    const expectedLaborCost = labor.grandCost * (1 + settings.stagingMaterialMultiplier) +
+      crewPlan.opsAdminLaborTotal.cost + passThroughs.travelTotal;
+    const expectedLaborBilled = expectedLaborCost * (1 + markups.laborMarkupPct);
+    const expectedPassThroughCost = passThroughs.perDiemTotal + passThroughs.lodgingTotal +
+      passThroughs.airfareTotal + passThroughs.rentalsTotal + passThroughs.softCostsTotal;
+    const expectedPassThroughBilled = expectedPassThroughCost * (1 + markups.passThroughMarkupPct);
+    const expectedMaterialCost = materials.hardwareTotal;
+    const expectedMaterialBilled = expectedMaterialCost * (1 + markups.materialMarkupPct);
+    const expectedTotalDirectCost = expectedLaborBilled + expectedPassThroughBilled + expectedMaterialBilled;
+    const expectedBreakEven = expectedLaborCost + expectedPassThroughCost + expectedMaterialCost;
+
+    const expectedGrossProfit = expectedTotalDirectCost - expectedBreakEven;
+    const expectedMarkupPercent = expectedTotalDirectCost / expectedBreakEven - 1;
+    const expectedGrossMarginPercent = 1 - expectedBreakEven / expectedTotalDirectCost;
+
+    expect(result.grossProfit).toBeCloseTo(expectedGrossProfit, 6);
+    expect(result.markupPercent).toBeCloseTo(expectedMarkupPercent, 6);
+    expect(result.grossMarginPercent).toBeCloseTo(expectedGrossMarginPercent, 6);
+  });
+
+  it('apportions corporate markup and margin tweak between labor and material to bid using independently-derived fractions', () => {
+    const result = calculateExecutiveSummary(labor, crewPlan, passThroughs, materials, settings, markups);
+    const expectedLaborCost = labor.grandCost * (1 + settings.stagingMaterialMultiplier) +
+      crewPlan.opsAdminLaborTotal.cost + passThroughs.travelTotal;
+    const expectedLaborBilled = expectedLaborCost * (1 + markups.laborMarkupPct);
+    const expectedPassThroughCost = passThroughs.perDiemTotal + passThroughs.lodgingTotal +
+      passThroughs.airfareTotal + passThroughs.rentalsTotal + passThroughs.softCostsTotal;
+    const expectedPassThroughBilled = expectedPassThroughCost * (1 + markups.passThroughMarkupPct);
+    const expectedMaterialCost = materials.hardwareTotal;
+    const expectedMaterialBilled = expectedMaterialCost * (1 + markups.materialMarkupPct);
+    const expectedTotalDirectCost = expectedLaborBilled + expectedPassThroughBilled + expectedMaterialBilled;
+
+    const expectedProjectedGrossMarginTotal = expectedTotalDirectCost + markups.marginTweak;
+    const expectedCorporateMarkupCost = expectedProjectedGrossMarginTotal * markups.corporateMarkupPct;
+
+    const laborExpenseApportionment = (expectedLaborBilled + expectedPassThroughBilled) / expectedTotalDirectCost;
+    const materialApportionment = expectedMaterialBilled / expectedTotalDirectCost;
+
+    const expectedTotalLaborToBid = expectedLaborBilled + expectedPassThroughBilled +
+      expectedCorporateMarkupCost * laborExpenseApportionment + markups.marginTweak * laborExpenseApportionment;
+    const expectedTotalMaterialToBid = expectedMaterialBilled +
+      expectedCorporateMarkupCost * materialApportionment + markups.marginTweak * materialApportionment;
+
+    expect(result.totalLaborToBid).toBeCloseTo(expectedTotalLaborToBid, 6);
+    expect(result.totalMaterialToBid).toBeCloseTo(expectedTotalMaterialToBid, 6);
+  });
+
   it('applies the margin tweak correctly when non-zero', () => {
     const tweakedMarkups = { ...markups, marginTweak: 5000 };
     const result = calculateExecutiveSummary(labor, crewPlan, passThroughs, materials, settings, tweakedMarkups);
