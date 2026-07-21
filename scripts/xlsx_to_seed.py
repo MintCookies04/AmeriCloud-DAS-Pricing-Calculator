@@ -50,6 +50,10 @@ def load_wb():
     return openpyxl.load_workbook(WORKBOOK_PATH, data_only=False)
 
 
+def load_wb_values():
+    return openpyxl.load_workbook(WORKBOOK_PATH, data_only=True)
+
+
 def parse_material_items(wb):
     ws = wb["Bill of Materials"]
     items = []
@@ -128,15 +132,24 @@ def parse_labor_sheet(wb, sheet_name, key_prefix, derived_quantities):
     return tasks
 
 
-def parse_labor_rates(wb):
-    ws = wb["Labor Projections"]
+def parse_labor_rates(wb_values):
+    # NOTE: must be called with a workbook loaded via data_only=True. Column D
+    # ("Reg Bill with MU") is a formula for 5 of 6 roles and a hardcoded
+    # literal override for RF-Engineer (=100, vs its raw wage B5=75) — reading
+    # it with data_only=False would return the formula text, not the number.
+    ws = wb_values["Labor Projections"]
     rates = []
     for row in range(3, 9):
         role = ws[f"A{row}"].value
-        rate = ws[f"B{row}"].value
-        if role is None or rate is None:
+        raw_wage = ws[f"B{row}"].value
+        billing_rate = ws[f"D{row}"].value
+        if role is None or raw_wage is None or billing_rate is None:
             continue
-        rates.append({"role": role, "hourlyRate": float(rate)})
+        rates.append({
+            "role": role,
+            "hourlyRate": float(billing_rate),
+            "rawWageRate": float(raw_wage),
+        })
     return rates
 
 
@@ -208,6 +221,7 @@ def parse_pass_through_rates(wb):
 
 def main():
     wb = load_wb()
+    wb_values = load_wb_values()
     OUT_DIR.mkdir(parents=True, exist_ok=True)
 
     material_items = parse_material_items(wb)
@@ -215,11 +229,11 @@ def main():
 
     loe_tasks = parse_labor_sheet(wb, "LOE Sheet", "loe", LOE_DERIVED_QUANTITIES)
     sow_tasks = parse_labor_sheet(wb, "Additional SOW's", "sow", {})
-    assert len(loe_tasks) >= 89, f"expected ~100 LOE tasks, got {len(loe_tasks)}"
-    assert len(sow_tasks) >= 19, f"expected ~28 Additional SOW tasks, got {len(sow_tasks)}"
+    assert len(loe_tasks) == 89, f"expected exactly 89 LOE tasks, got {len(loe_tasks)}"
+    assert len(sow_tasks) == 19, f"expected exactly 19 Additional SOW tasks, got {len(sow_tasks)}"
     labor_tasks = loe_tasks + sow_tasks
 
-    labor_rates = parse_labor_rates(wb)
+    labor_rates = parse_labor_rates(wb_values)
     assert len(labor_rates) == 6, f"expected 6 labor rates, got {len(labor_rates)}"
 
     crew_size_table = parse_crew_size_table(wb)

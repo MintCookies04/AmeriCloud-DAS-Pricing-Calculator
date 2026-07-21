@@ -1,26 +1,32 @@
 [
   {
     "role": "Technician",
-    "hourlyRate": 85.0
+    "hourlyRate": 85.0,
+    "rawWageRate": 85.0
   },
   {
     "role": "Construction Manager",
-    "hourlyRate": 95.0
+    "hourlyRate": 95.0,
+    "rawWageRate": 95.0
   },
   {
     "role": "RF-Engineer",
-    "hourlyRate": 75.0
+    "hourlyRate": 100.0,
+    "rawWageRate": 75.0
   },
   {
     "role": "RF-Technician",
-    "hourlyRate": 75.0
+    "hourlyRate": 75.0,
+    "rawWageRate": 75.0
   },
   {
     "role": "Project Coordinator",
-    "hourlyRate": 55.0
+    "hourlyRate": 55.0,
+    "rawWageRate": 55.0
   },
   {
     "role": "Project Manager",
-    "hourlyRate": 100.0
+    "hourlyRate": 100.0,
+    "rawWageRate": 100.0
   }
 ]
