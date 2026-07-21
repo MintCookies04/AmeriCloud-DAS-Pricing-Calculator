@@ -54,15 +54,19 @@ interface SeedPassThroughRates {
 async function main() {
   const materialItems = readJson<SeedMaterialItem[]>('material-items.json');
   for (const item of materialItems) {
+    const category = CATEGORY_MAP[item.category];
+    if (!category) throw new Error(`Unknown material category: ${item.category}`);
     await prisma.materialItem.upsert({
       where: { key: item.key },
-      create: { ...item, category: CATEGORY_MAP[item.category] },
-      update: { ...item, category: CATEGORY_MAP[item.category] },
+      create: { ...item, category },
+      update: { ...item, category },
     });
   }
 
   const laborTasks = readJson<SeedLaborTask[]>('labor-tasks.json');
   for (const task of laborTasks) {
+    const laborRole = ROLE_MAP[task.laborRole];
+    if (!laborRole) throw new Error(`Unknown labor role: ${task.laborRole}`);
     await prisma.laborTask.upsert({
       where: { key: task.key },
       create: {
@@ -72,7 +76,7 @@ async function main() {
         name: task.name,
         minutesPerUnit: task.minutesPerUnit,
         unit: task.unit,
-        laborRole: ROLE_MAP[task.laborRole],
+        laborRole,
         includedInSubtotal: task.includedInSubtotal,
         derivedFromJson: task.derivedFrom ?? undefined,
       },
@@ -82,7 +86,7 @@ async function main() {
         name: task.name,
         minutesPerUnit: task.minutesPerUnit,
         unit: task.unit,
-        laborRole: ROLE_MAP[task.laborRole],
+        laborRole,
         includedInSubtotal: task.includedInSubtotal,
         derivedFromJson: task.derivedFrom ?? undefined,
       },
@@ -92,6 +96,7 @@ async function main() {
   const laborRates = readJson<SeedLaborRate[]>('labor-rates.json');
   for (const rate of laborRates) {
     const role = ROLE_MAP[rate.role];
+    if (!role) throw new Error(`Unknown labor role: ${rate.role}`);
     await prisma.laborRate.upsert({
       where: { role },
       create: { role, hourlyRate: rate.hourlyRate, rawWageRate: rate.rawWageRate },
@@ -118,6 +123,7 @@ async function main() {
   const passThroughRates = readJson<SeedPassThroughRates>('pass-through-rates.json');
   for (const r of passThroughRates.perDiemRateByRole) {
     const role = ROLE_MAP[r.role];
+    if (!role) throw new Error(`Unknown labor role: ${r.role}`);
     await prisma.passThroughRoleRate.upsert({
       where: { kind_role: { kind: PassThroughRateKind.PerDiem, role } },
       create: { kind: PassThroughRateKind.PerDiem, role, amount: r.rate },
@@ -126,6 +132,7 @@ async function main() {
   }
   for (const r of passThroughRates.lodgingRateByRole) {
     const role = ROLE_MAP[r.role];
+    if (!role) throw new Error(`Unknown labor role: ${r.role}`);
     await prisma.passThroughRoleRate.upsert({
       where: { kind_role: { kind: PassThroughRateKind.Lodging, role } },
       create: { kind: PassThroughRateKind.Lodging, role, amount: r.rate },
@@ -134,6 +141,7 @@ async function main() {
   }
   for (const r of passThroughRates.airfareCostByRole) {
     const role = ROLE_MAP[r.role];
+    if (!role) throw new Error(`Unknown labor role: ${r.role}`);
     await prisma.passThroughRoleRate.upsert({
       where: { kind_role: { kind: PassThroughRateKind.Airfare, role } },
       create: { kind: PassThroughRateKind.Airfare, role, amount: r.cost },
