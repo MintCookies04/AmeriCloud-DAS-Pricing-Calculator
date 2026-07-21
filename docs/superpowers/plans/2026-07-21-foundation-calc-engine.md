@@ -1540,7 +1540,12 @@ describe('calculateLabor', () => {
 
     const sowHours = (100 * 5.19) / 60;
     const loeHours = (4 * 15) / 60;
-    expect(result.grandHours).toBeCloseTo(sowHours + loeHours, 8);
+    // loe-25 ("Labeling Coax") is derived from loe-21 + loe-22 + loe-31. Only
+    // loe-21 has a quantity in this test (loe-22/loe-31 default to 0 since they
+    // have no input line), so loe-25 still resolves to a quantity of 4 and
+    // contributes its own hours to the grand total.
+    const derivedHours = (4 * 2) / 60;
+    expect(result.grandHours).toBeCloseTo(sowHours + loeHours + derivedHours, 8);
   });
 });
 ```
