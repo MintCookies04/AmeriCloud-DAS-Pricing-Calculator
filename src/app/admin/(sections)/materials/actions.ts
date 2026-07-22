@@ -2,6 +2,7 @@
 
 import { prisma } from '@/lib/db';
 import { Prisma, type MaterialCategory } from '@prisma/client';
+import { revalidatePath } from 'next/cache';
 
 interface ActionResult {
   error?: string;
@@ -77,6 +78,7 @@ export async function createMaterial(values: Record<string, string>): Promise<Ac
     }
     throw error;
   }
+  revalidatePath('/', 'layout');
   return {};
 }
 
@@ -107,10 +109,12 @@ export async function updateMaterial(id: string, values: Record<string, string>)
     }
     throw error;
   }
+  revalidatePath('/', 'layout');
   return {};
 }
 
 export async function deleteMaterial(id: string): Promise<ActionResult> {
   await prisma.materialItem.delete({ where: { id } });
+  revalidatePath('/', 'layout');
   return {};
 }

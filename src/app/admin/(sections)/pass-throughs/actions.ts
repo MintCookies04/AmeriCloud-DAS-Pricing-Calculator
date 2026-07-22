@@ -2,6 +2,7 @@
 
 import { prisma } from '@/lib/db';
 import { Prisma } from '@prisma/client';
+import { revalidatePath } from 'next/cache';
 
 interface ActionResult {
   error?: string;
@@ -19,6 +20,7 @@ export async function updatePassThroughRoleRate(id: string, values: Record<strin
   if (amount === null) return { error: 'Amount must be a non-negative number.' };
 
   await prisma.passThroughRoleRate.update({ where: { id }, data: { amount } });
+  revalidatePath('/', 'layout');
   return {};
 }
 
@@ -61,6 +63,7 @@ export async function createRental(values: Record<string, string>): Promise<Acti
     }
     throw error;
   }
+  revalidatePath('/', 'layout');
   return {};
 }
 
@@ -79,11 +82,13 @@ export async function updateRental(id: string, values: Record<string, string>): 
     }
     throw error;
   }
+  revalidatePath('/', 'layout');
   return {};
 }
 
 export async function deleteRental(id: string): Promise<ActionResult> {
   await prisma.rentalRate.delete({ where: { id } });
+  revalidatePath('/', 'layout');
   return {};
 }
 
@@ -119,6 +124,7 @@ export async function createSoftCost(values: Record<string, string>): Promise<Ac
     }
     throw error;
   }
+  revalidatePath('/', 'layout');
   return {};
 }
 
@@ -137,10 +143,12 @@ export async function updateSoftCost(id: string, values: Record<string, string>)
     }
     throw error;
   }
+  revalidatePath('/', 'layout');
   return {};
 }
 
 export async function deleteSoftCost(id: string): Promise<ActionResult> {
   await prisma.softCostRate.delete({ where: { id } });
+  revalidatePath('/', 'layout');
   return {};
 }

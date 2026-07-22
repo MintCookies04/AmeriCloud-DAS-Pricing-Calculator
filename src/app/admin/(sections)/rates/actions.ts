@@ -1,6 +1,7 @@
 'use server';
 
 import { prisma } from '@/lib/db';
+import { revalidatePath } from 'next/cache';
 
 interface ActionResult {
   error?: string;
@@ -34,6 +35,7 @@ export async function updateLaborRate(id: string, values: Record<string, string>
   if (rawWageRate === null) return { error: 'Raw wage rate must be a non-negative number.' };
 
   await prisma.laborRate.update({ where: { id }, data: { hourlyRate, rawWageRate } });
+  revalidatePath('/', 'layout');
   return {};
 }
 
@@ -42,6 +44,7 @@ export async function updateCrewSizeRow(id: string, values: Record<string, strin
   if (cmsNeeded === null) return { error: 'CMs needed must be a non-negative whole number.' };
 
   await prisma.crewSizeRow.update({ where: { id }, data: { cmsNeeded } });
+  revalidatePath('/', 'layout');
   return {};
 }
 
@@ -98,5 +101,6 @@ export async function updateLaborProjectionSettings(values: Record<string, strin
       coordinatorPercentOfTechHours: parsed.coordinatorPercentOfTechHours,
     },
   });
+  revalidatePath('/', 'layout');
   return {};
 }

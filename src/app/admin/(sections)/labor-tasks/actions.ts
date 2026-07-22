@@ -3,6 +3,7 @@
 import { prisma } from '@/lib/db';
 import { Prisma, type LaborRoleName, type LaborSheet } from '@prisma/client';
 import { parseDerivedFrom } from '@/lib/data/loadReferenceData';
+import { revalidatePath } from 'next/cache';
 
 interface ActionResult {
   error?: string;
@@ -76,6 +77,7 @@ export async function createLaborTask(values: Record<string, string>): Promise<A
     }
     throw error;
   }
+  revalidatePath('/', 'layout');
   return {};
 }
 
@@ -106,6 +108,7 @@ export async function updateLaborTask(id: string, values: Record<string, string>
     }
     throw error;
   }
+  revalidatePath('/', 'layout');
   return {};
 }
 
@@ -140,5 +143,6 @@ export async function deleteLaborTask(id: string): Promise<ActionResult> {
   }
 
   await prisma.laborTask.delete({ where: { id } });
+  revalidatePath('/', 'layout');
   return {};
 }

@@ -1,6 +1,7 @@
 'use server';
 
 import { prisma } from '@/lib/db';
+import { revalidatePath } from 'next/cache';
 
 interface ActionResult {
   error?: string;
@@ -60,5 +61,6 @@ export async function updateEstimateDefaults(values: Record<string, string>): Pr
       contingencyPct: parsed.contingencyPct,
     },
   });
+  revalidatePath('/', 'layout');
   return {};
 }
