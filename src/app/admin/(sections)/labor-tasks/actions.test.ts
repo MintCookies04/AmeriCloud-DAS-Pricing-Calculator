@@ -85,6 +85,30 @@ describe('labor task admin actions (integration — requires a live, seeded loca
     expect(stillThere).not.toBeNull();
   });
 
+  it('blocks deleting an unrelated task when some other row has malformed derivedFromJson', async () => {
+    const malformed = await prisma.laborTask.create({
+      data: {
+        key: 'test-admin-task-malformed', sheet: 'LOE', category: 'C', name: 'Malformed',
+        minutesPerUnit: 1, unit: 'Each', laborRole: 'Technician', includedInSubtotal: true,
+        derivedFromJson: { garbage: true },
+      },
+    });
+    createdIds.push(malformed.id);
+    const unrelated = await prisma.laborTask.create({
+      data: {
+        key: 'test-admin-task-unrelated', sheet: 'LOE', category: 'C', name: 'Unrelated',
+        minutesPerUnit: 1, unit: 'Each', laborRole: 'Technician', includedInSubtotal: true,
+      },
+    });
+    createdIds.push(unrelated.id);
+
+    const result = await deleteLaborTask(unrelated.id);
+    expect(result.error).toMatch(/test-admin-task-malformed/);
+
+    const stillThere = await prisma.laborTask.findUnique({ where: { id: unrelated.id } });
+    expect(stillThere).not.toBeNull();
+  });
+
   it('allows deleting a task nothing else derives from', async () => {
     const created = await prisma.laborTask.create({
       data: {

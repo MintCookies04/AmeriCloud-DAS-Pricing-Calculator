@@ -114,12 +114,28 @@ export async function deleteLaborTask(id: string): Promise<ActionResult> {
   if (!target) return { error: 'Task not found.' };
 
   const allTasks = await prisma.laborTask.findMany({ select: { key: true, derivedFromJson: true } });
-  const referencingTasks = allTasks.filter((t) => {
-    const derived = parseDerivedFrom(t.derivedFromJson, t.key);
-    return derived?.terms.some((term) => term.key === target.key) ?? false;
-  });
+
+  const referencingTasks: string[] = [];
+  const unparseableTasks: string[] = [];
+  for (const t of allTasks) {
+    let derived: ReturnType<typeof parseDerivedFrom>;
+    try {
+      derived = parseDerivedFrom(t.derivedFromJson, t.key);
+    } catch {
+      unparseableTasks.push(t.key);
+      continue;
+    }
+    if (derived?.terms.some((term) => term.key === target.key)) {
+      referencingTasks.push(t.key);
+    }
+  }
+
+  if (unparseableTasks.length > 0) {
+    const names = unparseableTasks.join(', ');
+    return { error: `Cannot verify it's safe to delete "${target.key}" — the following task(s) have malformed derivation data and could not be checked: ${names}. Fix their data first.` };
+  }
   if (referencingTasks.length > 0) {
-    const names = referencingTasks.map((t) => t.key).join(', ');
+    const names = referencingTasks.join(', ');
     return { error: `Cannot delete "${target.key}" — it is referenced by the derived quantity formula of: ${names}.` };
   }
 
