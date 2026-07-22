@@ -25,8 +25,8 @@ describe('material admin actions (integration — requires a live, seeded local 
     expect(result.error).toBeUndefined();
 
     const created = await prisma.materialItem.findUnique({ where: { key: 'test-admin-material-1' } });
-    expect(created).toMatchObject({ type: 'Test Type', unitCost: 12.5, category: 'Consumable' });
     if (created) createdIds.push(created.id);
+    expect(created).toMatchObject({ type: 'Test Type', unitCost: 12.5, category: 'Consumable' });
   });
 
   it('rejects a duplicate key', async () => {
@@ -79,6 +79,7 @@ describe('material admin actions (integration — requires a live, seeded local 
     const created = await prisma.materialItem.create({
       data: { key: 'test-admin-material-delete', type: 'T', description: 'D', category: 'Consumable', unitCost: 1 },
     });
+    createdIds.push(created.id);
 
     const result = await deleteMaterial(created.id);
     expect(result.error).toBeUndefined();

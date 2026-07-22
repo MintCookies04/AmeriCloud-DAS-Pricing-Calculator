@@ -1,7 +1,7 @@
 'use server';
 
 import { prisma } from '@/lib/db';
-import type { MaterialCategory } from '@prisma/client';
+import { Prisma, type MaterialCategory } from '@prisma/client';
 
 interface ActionResult {
   error?: string;
@@ -58,18 +58,25 @@ export async function createMaterial(values: Record<string, string>): Promise<Ac
   const existing = await prisma.materialItem.findUnique({ where: { key: parsed.key } });
   if (existing) return { error: `A material with key "${parsed.key}" already exists.` };
 
-  await prisma.materialItem.create({
-    data: {
-      key: parsed.key,
-      type: parsed.type,
-      manufacturer: parsed.manufacturer,
-      model: parsed.model,
-      description: parsed.description,
-      vendor: parsed.vendor,
-      category: parsed.category,
-      unitCost: parsed.unitCost,
-    },
-  });
+  try {
+    await prisma.materialItem.create({
+      data: {
+        key: parsed.key,
+        type: parsed.type,
+        manufacturer: parsed.manufacturer,
+        model: parsed.model,
+        description: parsed.description,
+        vendor: parsed.vendor,
+        category: parsed.category,
+        unitCost: parsed.unitCost,
+      },
+    });
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
+      return { error: `A material with key "${parsed.key}" already exists.` };
+    }
+    throw error;
+  }
   return {};
 }
 
@@ -80,19 +87,26 @@ export async function updateMaterial(id: string, values: Record<string, string>)
   const keyOwner = await prisma.materialItem.findUnique({ where: { key: parsed.key } });
   if (keyOwner && keyOwner.id !== id) return { error: `A material with key "${parsed.key}" already exists.` };
 
-  await prisma.materialItem.update({
-    where: { id },
-    data: {
-      key: parsed.key,
-      type: parsed.type,
-      manufacturer: parsed.manufacturer,
-      model: parsed.model,
-      description: parsed.description,
-      vendor: parsed.vendor,
-      category: parsed.category,
-      unitCost: parsed.unitCost,
-    },
-  });
+  try {
+    await prisma.materialItem.update({
+      where: { id },
+      data: {
+        key: parsed.key,
+        type: parsed.type,
+        manufacturer: parsed.manufacturer,
+        model: parsed.model,
+        description: parsed.description,
+        vendor: parsed.vendor,
+        category: parsed.category,
+        unitCost: parsed.unitCost,
+      },
+    });
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
+      return { error: `A material with key "${parsed.key}" already exists.` };
+    }
+    throw error;
+  }
   return {};
 }
 
