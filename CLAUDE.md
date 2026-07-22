@@ -40,7 +40,7 @@ Notable correctness findings made and fixed during this phase (see the plan's "P
 - The workbook's own "Net Profit $$" and "Break-Even" panel formulas have apparent copy-paste bugs (reference pre-corporate-markup figures instead of post-markup ones). Per explicit user decision, this port computes the economically-consistent version instead of replicating the bug — this does **not** affect the Grand Total to Bid chain, which is traced and reproduced exactly.
 - `LaborProjectionSettings` and `EstimateDefaults` use a fixed `id: 'singleton'` (not `cuid()`) for deterministic upserts, since each holds exactly one row.
 
-## Status: Estimating Workflow UI — COMPLETE (pending merge to master)
+## Status: Estimating Workflow UI — COMPLETE (merged to master)
 
 Plan: `docs/superpowers/plans/2026-07-22-estimating-workflow-ui.md` (amended mid-implementation to record the `BlobProvider`/`PDFDownloadLink` decision below — read its "Plan Amendments" for full detail).
 
@@ -56,10 +56,24 @@ Notable finding from the final whole-branch review (architectural, not a bug —
 
 Deferred (Minor, non-blocking, noted for future polish): PDF generation (`BlobProvider`) regenerates on every summary-page keystroke instead of gating behind the Export click; `pdfFileName.ts` doesn't sanitize filesystem-unsafe characters from client/project names; `Number(e.target.value)` produces `NaN` on empty/partial numeric input across several pages (a shared `parseNumericInput` helper would close this in one place); `EstimateContext`'s value/setters aren't memoized (confirmed low blast radius at the current one-page-per-route structure, revisit if that changes).
 
+## Status: Admin Area — COMPLETE (merged to master)
+
+Plan: `docs/superpowers/plans/2026-07-22-admin-area.md`.
+
+Delivered, built as 7 sequential tasks (each independently task-reviewed, then a final whole-branch review):
+- Password-gated `/admin` area (shared session cookie, no per-user accounts) with CRUD screens for the material catalog, labor task library, labor rates + crew-size table + projection settings, pass-through rate defaults (role rates, rentals, soft costs), and estimate defaults (markup/tax)
+- Applied the Plan 2 whole-branch review's static-data note: `src/app/layout.tsx` now has `export const dynamic = 'force-dynamic'`, so admin edits reach the estimating pages without a redeploy
+- Shared `AdminTable` component driving all 5 CRUD sections
+- Every mutating Server Action revalidates the root layout (`revalidatePath('/', 'layout')`) and `next.config.mjs` sets `experimental.staleTimes.dynamic = 0`, so edits are fresh on soft (sidebar `<Link>`) navigation, not just hard reloads — Next 14.2's client Router Cache otherwise serves stale pricing/markup data for up to 30s
+- Verified: `tsc --noEmit` clean, 101/101 tests passing (22 files, `vitest.config.ts` sets `fileParallelism: false` since integration tests share one real local Postgres), `npm run build` succeeds (15 routes, all correctly dynamic)
+
+Notable finding from the final whole-branch review, fixed before merge:
+- Authentication was enforced only in `src/middleware.ts` via pathname matching. Server Actions dispatch via an encrypted `next-action` header independent of pathname matching, so every mutating action trusted the gate without checking itself — a matcher typo or future route/rewrite could have silently stripped authorization from all admin mutations. Fixed by adding `requireAdminSession()` (`src/lib/auth/adminAuth.ts`) as the first statement of all 17 mutating Server Actions across the 5 admin sections; verified end-to-end via a captured-and-replayed Server Action request (blocked with no cookie, succeeds with a valid session).
+
+Deferred (Minor, non-blocking): `src/lib/auth/adminAuth.ts` top-level-imports `next/headers`, now reached transitively by the Edge `middleware.ts` — confirmed non-breaking on Next 14.2.35 but undoes Task 1's deliberate edge-clean isolation; splitting `requireAdminSession()` into its own module would restore it. Non-constant-time password comparison and a static non-expiring session cookie (no rotation) — an accepted tradeoff for a single shared internal password, revisit if this ever protects more than internal pricing. `deleteMaterial`/`deleteRental`/`deleteSoftCost` and the singleton updates don't catch Prisma P2025 (record-not-found). `ActionResult`/`ValidationErr`/`parseNonNegative`/`parsePercent` helpers are redefined per-file across the 5 admin action files rather than shared. Markup percent fields are hard-capped at 100% — confirm with the stakeholder this is always correct for construction markups.
+
 ## What to do next
 
-Per the design spec, one plan remains:
+All three planned phases (Foundation & Calculation Engine, Estimating Workflow UI, Admin Area) are complete and merged. No plan is currently in progress — check with the user for the next priority.
 
-- **Plan 3 — Admin Area:** CRUD screens for all editable reference data (material catalog, labor task library, labor rates, crew-size table, pass-through rate defaults, markup/tax defaults). **Read the build-time-static-data note above first** — it directly affects how Admin's edits reach the estimating pages.
-
-Minor items noted for later (non-blocking): the Materials `percentOfTotal` display field's denominator should be reconciled against the workbook's display column; the crew-size technician-count input should be constrained to 1–20 in the UI; consider `next/font` instead of the current Google Fonts `@import` in `globals.css`.
+Minor items noted for later (non-blocking, carried over from earlier phases): the Materials `percentOfTotal` display field's denominator should be reconciled against the workbook's display column; the crew-size technician-count input should be constrained to 1–20 in the UI; consider `next/font` instead of the current Google Fonts `@import` in `globals.css`; PDF generation (`BlobProvider`) regenerates on every summary-page keystroke instead of gating behind the Export click; `pdfFileName.ts` doesn't sanitize filesystem-unsafe characters; `Number(e.target.value)` produces `NaN` on empty/partial numeric input across several pages.
