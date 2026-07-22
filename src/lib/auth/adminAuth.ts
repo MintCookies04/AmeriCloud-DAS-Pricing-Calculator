@@ -1,3 +1,5 @@
+import { cookies } from 'next/headers';
+
 export const ADMIN_SESSION_COOKIE = 'das_admin_session';
 
 function requireAdminPassword(): string {
@@ -31,4 +33,10 @@ export async function isValidAdminSessionCookie(cookieValue: string | undefined)
   } catch {
     return false;
   }
+}
+
+export async function requireAdminSession(): Promise<boolean> {
+  const cookieStore = cookies();
+  const cookie = cookieStore.get(ADMIN_SESSION_COOKIE)?.value;
+  return isValidAdminSessionCookie(cookie);
 }

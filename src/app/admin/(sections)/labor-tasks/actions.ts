@@ -4,6 +4,7 @@ import { prisma } from '@/lib/db';
 import { Prisma, type LaborRoleName, type LaborSheet } from '@prisma/client';
 import { parseDerivedFrom } from '@/lib/data/loadReferenceData';
 import { revalidatePath } from 'next/cache';
+import { requireAdminSession } from '@/lib/auth/adminAuth';
 
 interface ActionResult {
   error?: string;
@@ -52,6 +53,7 @@ function validateLaborTaskValues(values: Record<string, string>): LaborTaskOk | 
 }
 
 export async function createLaborTask(values: Record<string, string>): Promise<ActionResult> {
+  if (!(await requireAdminSession())) return { error: 'Not authenticated.' };
   const parsed = validateLaborTaskValues(values);
   if (!parsed.ok) return { error: parsed.error };
 
@@ -82,6 +84,7 @@ export async function createLaborTask(values: Record<string, string>): Promise<A
 }
 
 export async function updateLaborTask(id: string, values: Record<string, string>): Promise<ActionResult> {
+  if (!(await requireAdminSession())) return { error: 'Not authenticated.' };
   const parsed = validateLaborTaskValues(values);
   if (!parsed.ok) return { error: parsed.error };
 
@@ -113,6 +116,7 @@ export async function updateLaborTask(id: string, values: Record<string, string>
 }
 
 export async function deleteLaborTask(id: string): Promise<ActionResult> {
+  if (!(await requireAdminSession())) return { error: 'Not authenticated.' };
   const target = await prisma.laborTask.findUnique({ where: { id } });
   if (!target) return { error: 'Task not found.' };
 

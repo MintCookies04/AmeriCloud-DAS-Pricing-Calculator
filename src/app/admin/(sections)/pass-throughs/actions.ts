@@ -3,6 +3,7 @@
 import { prisma } from '@/lib/db';
 import { Prisma } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
+import { requireAdminSession } from '@/lib/auth/adminAuth';
 
 interface ActionResult {
   error?: string;
@@ -16,6 +17,7 @@ function parseNonNegative(raw: string | undefined): number | null {
 }
 
 export async function updatePassThroughRoleRate(id: string, values: Record<string, string>): Promise<ActionResult> {
+  if (!(await requireAdminSession())) return { error: 'Not authenticated.' };
   const amount = parseNonNegative(values.amount);
   if (amount === null) return { error: 'Amount must be a non-negative number.' };
 
@@ -49,6 +51,7 @@ function validateRentalValues(values: Record<string, string>): RentalOk | Valida
 }
 
 export async function createRental(values: Record<string, string>): Promise<ActionResult> {
+  if (!(await requireAdminSession())) return { error: 'Not authenticated.' };
   const parsed = validateRentalValues(values);
   if (!parsed.ok) return { error: parsed.error };
 
@@ -68,6 +71,7 @@ export async function createRental(values: Record<string, string>): Promise<Acti
 }
 
 export async function updateRental(id: string, values: Record<string, string>): Promise<ActionResult> {
+  if (!(await requireAdminSession())) return { error: 'Not authenticated.' };
   const parsed = validateRentalValues(values);
   if (!parsed.ok) return { error: parsed.error };
 
@@ -87,6 +91,7 @@ export async function updateRental(id: string, values: Record<string, string>): 
 }
 
 export async function deleteRental(id: string): Promise<ActionResult> {
+  if (!(await requireAdminSession())) return { error: 'Not authenticated.' };
   await prisma.rentalRate.delete({ where: { id } });
   revalidatePath('/', 'layout');
   return {};
@@ -110,6 +115,7 @@ function validateSoftCostValues(values: Record<string, string>): SoftCostOk | Va
 }
 
 export async function createSoftCost(values: Record<string, string>): Promise<ActionResult> {
+  if (!(await requireAdminSession())) return { error: 'Not authenticated.' };
   const parsed = validateSoftCostValues(values);
   if (!parsed.ok) return { error: parsed.error };
 
@@ -129,6 +135,7 @@ export async function createSoftCost(values: Record<string, string>): Promise<Ac
 }
 
 export async function updateSoftCost(id: string, values: Record<string, string>): Promise<ActionResult> {
+  if (!(await requireAdminSession())) return { error: 'Not authenticated.' };
   const parsed = validateSoftCostValues(values);
   if (!parsed.ok) return { error: parsed.error };
 
@@ -148,6 +155,7 @@ export async function updateSoftCost(id: string, values: Record<string, string>)
 }
 
 export async function deleteSoftCost(id: string): Promise<ActionResult> {
+  if (!(await requireAdminSession())) return { error: 'Not authenticated.' };
   await prisma.softCostRate.delete({ where: { id } });
   revalidatePath('/', 'layout');
   return {};

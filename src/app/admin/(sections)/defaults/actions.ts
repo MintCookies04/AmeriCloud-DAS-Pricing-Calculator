@@ -2,6 +2,7 @@
 
 import { prisma } from '@/lib/db';
 import { revalidatePath } from 'next/cache';
+import { requireAdminSession } from '@/lib/auth/adminAuth';
 
 interface ActionResult {
   error?: string;
@@ -47,6 +48,7 @@ function validateDefaultsValues(values: Record<string, string>): DefaultsOk | Va
 }
 
 export async function updateEstimateDefaults(values: Record<string, string>): Promise<ActionResult> {
+  if (!(await requireAdminSession())) return { error: 'Not authenticated.' };
   const parsed = validateDefaultsValues(values);
   if (!parsed.ok) return { error: parsed.error };
 

@@ -3,6 +3,7 @@
 import { prisma } from '@/lib/db';
 import { Prisma, type MaterialCategory } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
+import { requireAdminSession } from '@/lib/auth/adminAuth';
 
 interface ActionResult {
   error?: string;
@@ -53,6 +54,7 @@ function validateMaterialValues(values: Record<string, string>): MaterialOk | Va
 }
 
 export async function createMaterial(values: Record<string, string>): Promise<ActionResult> {
+  if (!(await requireAdminSession())) return { error: 'Not authenticated.' };
   const parsed = validateMaterialValues(values);
   if (!parsed.ok) return { error: parsed.error };
 
@@ -83,6 +85,7 @@ export async function createMaterial(values: Record<string, string>): Promise<Ac
 }
 
 export async function updateMaterial(id: string, values: Record<string, string>): Promise<ActionResult> {
+  if (!(await requireAdminSession())) return { error: 'Not authenticated.' };
   const parsed = validateMaterialValues(values);
   if (!parsed.ok) return { error: parsed.error };
 
@@ -114,6 +117,7 @@ export async function updateMaterial(id: string, values: Record<string, string>)
 }
 
 export async function deleteMaterial(id: string): Promise<ActionResult> {
+  if (!(await requireAdminSession())) return { error: 'Not authenticated.' };
   await prisma.materialItem.delete({ where: { id } });
   revalidatePath('/', 'layout');
   return {};

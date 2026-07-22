@@ -2,6 +2,7 @@
 
 import { prisma } from '@/lib/db';
 import { revalidatePath } from 'next/cache';
+import { requireAdminSession } from '@/lib/auth/adminAuth';
 
 interface ActionResult {
   error?: string;
@@ -29,6 +30,7 @@ function parseNonNegativeInt(raw: string | undefined): number | null {
 }
 
 export async function updateLaborRate(id: string, values: Record<string, string>): Promise<ActionResult> {
+  if (!(await requireAdminSession())) return { error: 'Not authenticated.' };
   const hourlyRate = parseNonNegative(values.hourlyRate);
   if (hourlyRate === null) return { error: 'Hourly rate must be a non-negative number.' };
   const rawWageRate = parseNonNegative(values.rawWageRate);
@@ -40,6 +42,7 @@ export async function updateLaborRate(id: string, values: Record<string, string>
 }
 
 export async function updateCrewSizeRow(id: string, values: Record<string, string>): Promise<ActionResult> {
+  if (!(await requireAdminSession())) return { error: 'Not authenticated.' };
   const cmsNeeded = parseNonNegativeInt(values.cmsNeeded);
   if (cmsNeeded === null) return { error: 'CMs needed must be a non-negative whole number.' };
 
@@ -87,6 +90,7 @@ function validateSettingsValues(values: Record<string, string>): SettingsOk | Va
 }
 
 export async function updateLaborProjectionSettings(values: Record<string, string>): Promise<ActionResult> {
+  if (!(await requireAdminSession())) return { error: 'Not authenticated.' };
   const parsed = validateSettingsValues(values);
   if (!parsed.ok) return { error: parsed.error };
 

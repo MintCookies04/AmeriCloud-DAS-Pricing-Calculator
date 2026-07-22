@@ -1,6 +1,11 @@
-import { describe, it, expect, afterEach } from 'vitest';
+import { describe, it, expect, afterEach, vi } from 'vitest';
 import { prisma } from '@/lib/db';
 import { updateEstimateDefaults } from './actions';
+
+vi.mock('@/lib/auth/adminAuth', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/lib/auth/adminAuth')>();
+  return { ...actual, requireAdminSession: vi.fn().mockResolvedValue(true) };
+});
 
 describe('estimate defaults admin actions (integration — requires a live, seeded local Postgres)', () => {
   let restore: Record<string, number> | null = null;

@@ -1,6 +1,11 @@
-import { describe, it, expect, afterEach } from 'vitest';
+import { describe, it, expect, afterEach, vi } from 'vitest';
 import { prisma } from '@/lib/db';
 import { createLaborTask, updateLaborTask, deleteLaborTask } from './actions';
+
+vi.mock('@/lib/auth/adminAuth', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/lib/auth/adminAuth')>();
+  return { ...actual, requireAdminSession: vi.fn().mockResolvedValue(true) };
+});
 
 describe('labor task admin actions (integration — requires a live, seeded local Postgres)', () => {
   const createdIds: string[] = [];
