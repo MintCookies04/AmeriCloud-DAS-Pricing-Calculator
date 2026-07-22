@@ -52,6 +52,7 @@ export function AdminTable<Row extends { id: string }>({
 
   function startEdit(row: Row) {
     setEditingId(row.id);
+    setAdding(false);
     setDraft(rowToValues(row, columns));
     setError(null);
   }
