@@ -21,7 +21,7 @@ export default function AdminSectionsLayout({ children }: { children: React.Reac
       <div className="flex items-center justify-between border-b border-line pb-4">
         <nav className="flex gap-2">
           {ADMIN_NAV_ITEMS.map((item) => {
-            const active = pathname === item.href;
+            const active = pathname === item.href || pathname.startsWith(item.href + '/');
             return (
               <Link
                 key={item.href}
