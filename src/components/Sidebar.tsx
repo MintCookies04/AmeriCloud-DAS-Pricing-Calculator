@@ -11,6 +11,7 @@ const NAV_ITEMS = [
   { href: '/labor', label: 'Labor' },
   { href: '/pass-throughs', label: 'Pass Throughs' },
   { href: '/summary', label: 'Executive Summary' },
+  { href: '/admin', label: 'Admin' },
 ];
 
 export function Sidebar() {
@@ -33,7 +34,7 @@ export function Sidebar() {
       </button>
       <ul className="flex-1 py-2">
         {NAV_ITEMS.map((item) => {
-          const active = pathname === item.href;
+          const active = item.href === '/' ? pathname === '/' : pathname.startsWith(item.href);
           return (
             <li key={item.href}>
               <Link

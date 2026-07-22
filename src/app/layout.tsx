@@ -4,6 +4,8 @@ import { loadReferenceData, loadEstimateDefaults } from '@/lib/data/loadReferenc
 import { EstimateProvider } from '@/lib/estimate/EstimateContext';
 import { AppShell } from '@/components/AppShell';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'DAS Bid Estimator',
   description: 'AmeriCloud DAS construction bid estimator',
