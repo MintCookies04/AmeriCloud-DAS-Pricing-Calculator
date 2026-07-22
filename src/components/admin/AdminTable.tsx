@@ -194,7 +194,7 @@ export function AdminTable<Row extends { id: string }>({
   }
 
   return (
-    <div className={cn('bg-white rounded-lg shadow overflow-hidden', !header && 'pt-2')}>
+    <div className={cn('bg-white rounded-lg shadow overflow-hidden', !header && 'p-2')}>
       {header}
       {error && <div className="bg-red/10 text-red-700 px-4 py-2 text-sm">{error}</div>}
       {searchable && (
@@ -217,7 +217,7 @@ export function AdminTable<Row extends { id: string }>({
                   {col.label}
                 </th>
               ))}
-              <th className="px-4 py-2 text-right whitespace-nowrap">Actions</th>
+              <th className="px-4 py-2 text-right whitespace-nowrap sticky right-0 bg-white border-l border-line">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -230,7 +230,7 @@ export function AdminTable<Row extends { id: string }>({
                       {isEditing ? renderInput(col, row) : renderCell(col, row)}
                     </td>
                   ))}
-                  <td className="px-4 py-2 text-right whitespace-nowrap space-x-2">
+                  <td className={cn('px-4 py-2 text-right whitespace-nowrap space-x-2 sticky right-0 border-l border-line', i % 2 === 0 ? 'bg-white' : 'bg-mist')}>
                     {isEditing ? (
                       <>
                         <button disabled={pending} onClick={() => saveEdit(row.id)} className="rounded px-2 py-1 bg-navy text-white text-xs font-semibold hover:bg-navy-2 disabled:opacity-50">Save</button>
@@ -262,7 +262,7 @@ export function AdminTable<Row extends { id: string }>({
                     {renderInput(col)}
                   </td>
                 ))}
-                <td className="px-4 py-2 text-right whitespace-nowrap space-x-2">
+                <td className="px-4 py-2 text-right whitespace-nowrap space-x-2 sticky right-0 bg-mist-2 border-l border-line">
                   <button disabled={pending} onClick={saveNew} className="rounded px-2 py-1 bg-navy text-white text-xs font-semibold hover:bg-navy-2 disabled:opacity-50">Save</button>
                   <button disabled={pending} onClick={cancelEdit} className="rounded px-2 py-1 border border-line text-xs text-slate hover:text-navy hover:border-navy">Cancel</button>
                 </td>

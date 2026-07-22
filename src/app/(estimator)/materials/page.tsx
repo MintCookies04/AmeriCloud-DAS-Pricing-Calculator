@@ -6,6 +6,7 @@ import { useEstimate } from '@/lib/estimate/EstimateContext';
 import { formatCurrency } from '@/lib/utils/formatCurrency';
 import { parseNumericInput } from '@/lib/utils/parseNumericInput';
 import { MoveToButton } from '@/components/MoveToButton';
+import { Term } from '@/components/Term';
 import type { MaterialCategory } from '@/lib/calc';
 
 const CATEGORIES: MaterialCategory[] = ['Consumable', 'DAS Materials', 'BAT Materials'];
@@ -86,7 +87,7 @@ export default function MaterialsPage() {
                   <thead className="sticky top-0 z-10 bg-white">
                     <tr className="border-b border-line text-left text-xs font-semibold uppercase tracking-wide text-slate">
                       <th className="px-4 py-2">Type</th>
-                      <th className="px-4 py-2">Manufacturer / Model</th>
+                      <th className="px-4 py-2 hidden md:table-cell">Manufacturer / Model</th>
                       <th className="px-4 py-2">Description</th>
                       <th className="px-4 py-2 text-right">Unit Cost</th>
                       <th className="px-4 py-2 text-right">Qty</th>
@@ -97,7 +98,7 @@ export default function MaterialsPage() {
                     {items.map((item, i) => (
                       <tr key={item.key} className={i % 2 === 0 ? 'bg-white' : 'bg-mist'}>
                         <td className="px-4 py-2">{item.type}</td>
-                        <td className="px-4 py-2">{[item.manufacturer, item.model].filter(Boolean).join(' / ')}</td>
+                        <td className="px-4 py-2 hidden md:table-cell">{[item.manufacturer, item.model].filter(Boolean).join(' / ')}</td>
                         <td className="px-4 py-2">{item.description}</td>
                         <td className="px-4 py-2 text-right">{formatCurrency(item.unitCost)}</td>
                         <td className="px-4 py-2 text-right">
@@ -120,10 +121,19 @@ export default function MaterialsPage() {
         );
       })}
 
+      {/* Reserves space so the sticky footer below never overlaps the last category
+          card's rows while scrolling — sized to (and slightly exceeding) the footer's
+          own rendered height (~154px). */}
+      <div className="h-36" aria-hidden="true" />
+
       <div className="sticky bottom-0 z-10 bg-white rounded-lg shadow-lg border border-line p-4 space-y-2">
         <div className="flex justify-between items-center">
           <label className="flex items-center gap-2">
-            <span className="text-slate">Contingency %</span>
+            <span className="text-slate">
+              <Term definition="A buffer percentage added to the material total to cover unexpected cost overruns">
+                Contingency %
+              </Term>
+            </span>
             <input
               type="number"
               min={0}

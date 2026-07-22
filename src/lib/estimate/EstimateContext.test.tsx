@@ -1,8 +1,10 @@
 // @vitest-environment jsdom
-import { describe, it, expect } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 import { EstimateProvider, useEstimate } from './EstimateContext';
 import type { ReferenceData } from '@/lib/calc';
+
+const DRAFT_STORAGE_KEY = 'das-estimate-draft-v1';
 
 const referenceData: ReferenceData = {
   materialItems: [
@@ -45,6 +47,10 @@ function TestConsumer() {
 }
 
 describe('EstimateProvider / useEstimate', () => {
+  beforeEach(() => {
+    window.localStorage.clear();
+  });
+
   it('recomputes the result when a material quantity is set', () => {
     render(
       <EstimateProvider referenceData={referenceData} estimateDefaults={estimateDefaults}>
@@ -67,5 +73,85 @@ describe('EstimateProvider / useEstimate', () => {
 
     fireEvent.click(screen.getByText('Set Client'));
     expect(screen.getByTestId('client-name').textContent).toBe('Acme Corp');
+  });
+
+  it('rehydrates a previously-saved draft from localStorage on mount', () => {
+    window.localStorage.setItem(DRAFT_STORAGE_KEY, JSON.stringify({
+      coverInfo: {
+        client: 'Restored Corp', project: '', rfpDate: '', bidDueDate: '', estimator: '',
+        contactName: '', contactPhone: '', contactEmail: '', customerType: '',
+        jobSiteAddress: '', projectOverview: '',
+      },
+      materials: [{ key: 'bom-3', quantity: 3 }],
+      contingencyPct: 0.10,
+      shippingHandling: 0,
+      loeTasks: [],
+      sowTasks: [],
+      technicianCount: 4,
+      passThroughs: { perDiem: [], lodging: [], travel: [], airfare: [], rentals: [], softCosts: [] },
+      markups: {
+        laborMarkupPct: 0.25, passThroughMarkupPct: 0.25, materialMarkupPct: 0.25,
+        corporateMarkupPct: 0.05, marginTweak: 0, taxRate: 0.0825,
+      },
+    }));
+
+    render(
+      <EstimateProvider referenceData={referenceData} estimateDefaults={estimateDefaults}>
+        <TestConsumer />
+      </EstimateProvider>,
+    );
+
+    expect(screen.getByTestId('client-name').textContent).toBe('Restored Corp');
+    // 4685 * 3 = 14055, +10% contingency (1405.5) = 15460.5
+    expect(screen.getByTestId('hardware-total').textContent).toBe('15460.5');
+  });
+
+  it('persists a dirty estimate to localStorage after the debounce window', () => {
+    vi.useFakeTimers();
+    try {
+      render(
+        <EstimateProvider referenceData={referenceData} estimateDefaults={estimateDefaults}>
+          <TestConsumer />
+        </EstimateProvider>,
+      );
+
+      fireEvent.click(screen.getByText('Set Client'));
+      expect(window.localStorage.getItem(DRAFT_STORAGE_KEY)).toBeNull();
+
+      act(() => {
+        vi.advanceTimersByTime(500);
+      });
+
+      const stored = JSON.parse(window.localStorage.getItem(DRAFT_STORAGE_KEY)!);
+      expect(stored.coverInfo.client).toBe('Acme Corp');
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it('does not warn before unload while the estimate is clean', () => {
+    render(
+      <EstimateProvider referenceData={referenceData} estimateDefaults={estimateDefaults}>
+        <TestConsumer />
+      </EstimateProvider>,
+    );
+
+    const event = new Event('beforeunload', { cancelable: true });
+    window.dispatchEvent(event);
+    expect(event.defaultPrevented).toBe(false);
+  });
+
+  it('warns before unload once the estimate becomes dirty', () => {
+    render(
+      <EstimateProvider referenceData={referenceData} estimateDefaults={estimateDefaults}>
+        <TestConsumer />
+      </EstimateProvider>,
+    );
+
+    fireEvent.click(screen.getByText('Set Client'));
+
+    const event = new Event('beforeunload', { cancelable: true });
+    window.dispatchEvent(event);
+    expect(event.defaultPrevented).toBe(true);
   });
 });

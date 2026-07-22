@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
@@ -17,9 +17,24 @@ const NAV_ITEMS = [
   { href: '/admin', label: 'Admin', icon: Settings },
 ];
 
+const NARROW_VIEWPORT_QUERY = '(max-width: 768px)';
+
 export function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
   const pathname = usePathname();
+
+  // Auto-collapse to reclaim width on tablet/narrow viewports. Only ever collapses
+  // automatically (on mount, and when resizing into the narrow range) — it never
+  // force-expands, so a manual expand is respected until the user collapses again.
+  useEffect(() => {
+    const mql = window.matchMedia(NARROW_VIEWPORT_QUERY);
+    if (mql.matches) setCollapsed(true);
+    function handleChange(e: MediaQueryListEvent) {
+      if (e.matches) setCollapsed(true);
+    }
+    mql.addEventListener('change', handleChange);
+    return () => mql.removeEventListener('change', handleChange);
+  }, []);
 
   return (
     <nav

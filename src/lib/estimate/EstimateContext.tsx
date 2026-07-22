@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useMemo, useState, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { buildEstimateResult } from '@/lib/calc';
 import type {
   EstimateInput, EstimateResult, LaborTaskLineInput, MarkupInputs,
@@ -8,6 +8,31 @@ import type {
 } from '@/lib/calc';
 import type { EstimateDefaultsData } from '@/lib/data/loadReferenceData';
 import { upsertLine } from './upsertLine';
+
+const DRAFT_STORAGE_KEY = 'das-estimate-draft-v1';
+const PERSIST_DEBOUNCE_MS = 500;
+
+interface PersistedDraft {
+  coverInfo: CoverInfo;
+  materials: MaterialLineInput[];
+  contingencyPct: number;
+  shippingHandling: number;
+  loeTasks: LaborTaskLineInput[];
+  sowTasks: LaborTaskLineInput[];
+  technicianCount: number;
+  passThroughs: PassThroughInput;
+  markups: MarkupInputs;
+}
+
+function loadDraft(): PersistedDraft | null {
+  if (typeof window === 'undefined') return null;
+  try {
+    const raw = window.localStorage.getItem(DRAFT_STORAGE_KEY);
+    return raw ? (JSON.parse(raw) as PersistedDraft) : null;
+  } catch {
+    return null;
+  }
+}
 
 export interface CoverInfo {
   client: string;
@@ -74,6 +99,79 @@ export function EstimateProvider({
     marginTweak: 0,
     taxRate: estimateDefaults.taxRate,
   });
+
+  const [isRehydrated, setIsRehydrated] = useState(false);
+
+  // Rehydrate a previously-saved draft once, after mount. This must run in an effect (not a
+  // lazy useState initializer) — localStorage doesn't exist during SSR, and computing the
+  // initial value differently on the server vs. the client would cause a hydration mismatch.
+  useEffect(() => {
+    const draft = loadDraft();
+    if (draft) {
+      setCoverInfoState(draft.coverInfo);
+      setMaterials(draft.materials);
+      setContingencyPct(draft.contingencyPct);
+      setShippingHandling(draft.shippingHandling);
+      setLoeTasks(draft.loeTasks);
+      setSowTasks(draft.sowTasks);
+      setTechnicianCount(draft.technicianCount);
+      setPassThroughsState(draft.passThroughs);
+      setMarkupsState(draft.markups);
+    }
+    setIsRehydrated(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const isDirty =
+    Object.values(coverInfo).some((v) => v !== '') ||
+    materials.length > 0 ||
+    loeTasks.length > 0 ||
+    sowTasks.length > 0 ||
+    technicianCount !== 4 ||
+    shippingHandling !== 0 ||
+    passThroughs.perDiem.length > 0 ||
+    passThroughs.lodging.length > 0 ||
+    passThroughs.travel.length > 0 ||
+    passThroughs.airfare.length > 0 ||
+    passThroughs.rentals.length > 0 ||
+    passThroughs.softCosts.length > 0 ||
+    markups.marginTweak !== 0;
+
+  // Debounced persistence: write the current draft to localStorage shortly after any change.
+  // Gated on isRehydrated so the initial (pre-load) render never overwrites a saved draft
+  // before it's had a chance to load.
+  useEffect(() => {
+    if (!isRehydrated) return;
+    const timer = setTimeout(() => {
+      if (!isDirty) {
+        window.localStorage.removeItem(DRAFT_STORAGE_KEY);
+        return;
+      }
+      const draft: PersistedDraft = {
+        coverInfo, materials, contingencyPct, shippingHandling, loeTasks, sowTasks,
+        technicianCount, passThroughs, markups,
+      };
+      window.localStorage.setItem(DRAFT_STORAGE_KEY, JSON.stringify(draft));
+    }, PERSIST_DEBOUNCE_MS);
+    return () => clearTimeout(timer);
+  }, [
+    isRehydrated, isDirty, coverInfo, materials, contingencyPct, shippingHandling,
+    loeTasks, sowTasks, technicianCount, passThroughs, markups,
+  ]);
+
+  // Warn on an actual browser unload (refresh, close, external navigation) when there's
+  // unsaved work. Does not fire for in-app client-side route transitions (e.g. the sidebar's
+  // Admin link) — those are covered by the rehydrate-on-mount effect above instead, since
+  // navigating to a different route group unmounts and later remounts this provider.
+  useEffect(() => {
+    function handleBeforeUnload(e: BeforeUnloadEvent) {
+      if (!isDirty) return;
+      e.preventDefault();
+      e.returnValue = '';
+    }
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [isDirty]);
 
   const input: EstimateInput = useMemo(
     () => ({ materials, contingencyPct, shippingHandling, loeTasks, sowTasks, technicianCount, passThroughs, markups }),

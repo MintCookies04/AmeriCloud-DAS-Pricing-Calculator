@@ -1,13 +1,14 @@
 // src/app/summary/page.tsx
 'use client';
 
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import dynamic from 'next/dynamic';
 import { useEstimate } from '@/lib/estimate/EstimateContext';
 import { formatCurrency } from '@/lib/utils/formatCurrency';
 import { parseNumericInput } from '@/lib/utils/parseNumericInput';
 import { EstimatePdfDocument } from '@/components/EstimatePdfDocument';
 import { pdfFileName } from '@/lib/utils/pdfFileName';
+import { Term } from '@/components/Term';
 
 // PDFDownloadLink's TypeScript types (as of @react-pdf/renderer 3.4.x) declare
 // `children` as `ReactNode | ReactElement<BlobProviderParams>`, which does not
@@ -28,7 +29,7 @@ function Row({
   strong = false,
   dark = false,
 }: {
-  label: string;
+  label: ReactNode;
   value: string;
   strong?: boolean;
   dark?: boolean;
@@ -84,14 +85,25 @@ export default function SummaryPage() {
       <section className="bg-white rounded-lg shadow p-4">
         <h2 className="font-display text-lg font-semibold text-navy mb-2">Material</h2>
         <Row label="Consumable" value={formatCurrency(es.consumableCost)} />
-        <Row label="DAS Materials" value={formatCurrency(es.dasMaterialsCost)} />
+        <Row
+          label={
+            <Term definition="Distributed Antenna System — in-building wireless coverage infrastructure">
+              DAS Materials
+            </Term>
+          }
+          value={formatCurrency(es.dasMaterialsCost)}
+        />
         <Row label="BAT Materials" value={formatCurrency(es.batMaterialsCost)} />
         <Row label="S&H / Material Contingency" value={formatCurrency(es.materialContingencyAndSH)} />
         <Row label="Total Materials" value={formatCurrency(es.totalMaterialBilled)} strong />
       </section>
 
       <section className="bg-white rounded-lg shadow p-4">
-        <h2 className="font-display text-lg font-semibold text-navy mb-2">Projected Gross Margins</h2>
+        <h2 className="font-display text-lg font-semibold text-navy mb-2">
+          <Term definition="The bid's cost picture before corporate overhead is added — direct costs plus your own margin tweak">
+            Projected Gross Margins
+          </Term>
+        </h2>
         <Row label="Total Direct Cost" value={formatCurrency(es.totalDirectCost)} strong />
         <Row label="Projected Gross Profit $$" value={formatCurrency(es.grossProfit)} />
         <Row label="Mark-Up %" value={`${(es.markupPercent * 100).toFixed(1)}%`} />
@@ -105,13 +117,40 @@ export default function SummaryPage() {
             onChange={(e) => setMarkups({ marginTweak: parseNumericInput(e.target.value) })}
           />
         </label>
-        <Row label="PGM Grand Total" value={formatCurrency(es.projectedGrossMarginTotal)} strong />
+        <Row
+          label={
+            <Term definition="Projected Gross Margin Grand Total — total direct cost (labor, pass-throughs, and materials, each after their own markup) plus your manual margin tweak, before corporate overhead is added">
+              PGM Grand Total
+            </Term>
+          }
+          value={formatCurrency(es.projectedGrossMarginTotal)}
+          strong
+        />
       </section>
 
       <section className="bg-white rounded-lg shadow p-4">
-        <h2 className="font-display text-lg font-semibold text-navy mb-2">Projected Net Margins</h2>
-        <Row label="Mark-Up for Corporate" value={formatCurrency(es.corporateMarkupCost)} />
-        <Row label="PNM Grand Total" value={formatCurrency(es.projectedNetMarginTotal)} strong />
+        <h2 className="font-display text-lg font-semibold text-navy mb-2">
+          <Term definition="The PGM total plus corporate overhead — the company's fully-loaded internal cost basis for this bid">
+            Projected Net Margins
+          </Term>
+        </h2>
+        <Row
+          label={
+            <Term definition="The corporate overhead percentage applied to the PGM Grand Total to arrive at the Projected Net Margin Total">
+              Mark-Up for Corporate
+            </Term>
+          }
+          value={formatCurrency(es.corporateMarkupCost)}
+        />
+        <Row
+          label={
+            <Term definition="Projected Net Margin Grand Total — the PGM Grand Total plus the corporate mark-up; the internal total before the labor/material split and tax that produce the customer-facing Grand Total to Bid">
+              PNM Grand Total
+            </Term>
+          }
+          value={formatCurrency(es.projectedNetMarginTotal)}
+          strong
+        />
         <Row label="Projected Net Profit $$" value={formatCurrency(es.netProfit)} />
         <Row label="Net Margin %" value={`${(es.netMarginPercent * 100).toFixed(1)}%`} />
       </section>

@@ -18,16 +18,26 @@ function groupByCategory(tasks: LaborTask[]): Map<string, LaborTask[]> {
   return groups;
 }
 
+function categoryDomId(sheet: 'LOE' | 'SOW', category: string): string {
+  return `labor-category-${sheet}-${category}`;
+}
+
+function scrollToLaborCategory(sheet: 'LOE' | 'SOW', category: string) {
+  document.getElementById(categoryDomId(sheet, category))?.scrollIntoView({ behavior: 'instant', block: 'start' });
+}
+
 export default function LaborPage() {
   const {
     referenceData, input, result, setLoeTaskQuantity, setSowTaskQuantity, setTechnicianCount,
   } = useEstimate();
   const [activeSheet, setActiveSheet] = useState<'LOE' | 'SOW'>('LOE');
+  const [search, setSearch] = useState('');
+  const needle = search.trim().toLowerCase();
 
   const loeTasks = referenceData.laborTasks.filter((t) => t.sheet === 'LOE');
   const sowTasks = referenceData.laborTasks.filter((t) => t.sheet === 'SOW');
   const tasksForSheet = activeSheet === 'LOE' ? loeTasks : sowTasks;
-  const groups = groupByCategory(tasksForSheet);
+  const allGroups = groupByCategory(tasksForSheet);
 
   const loeQtyByKey = new Map(input.loeTasks.map((t) => [t.key, t.quantity]));
   const sowQtyByKey = new Map(input.sowTasks.map((t) => [t.key, t.quantity]));
@@ -39,76 +49,116 @@ export default function LaborPage() {
     <div className="space-y-6">
       <h1 className="font-display text-3xl font-bold tracking-tight text-navy">Labor</h1>
 
-      <div className="flex gap-2">
-        <button
-          className={`px-4 py-2 rounded font-display ${activeSheet === 'LOE' ? 'bg-navy text-white' : 'bg-white text-navy border border-line'}`}
-          onClick={() => setActiveSheet('LOE')}
-        >
-          LOE
-        </button>
-        <button
-          className={`px-4 py-2 rounded font-display ${activeSheet === 'SOW' ? 'bg-navy text-white' : 'bg-white text-navy border border-line'}`}
-          onClick={() => setActiveSheet('SOW')}
-        >
-          Additional SOW's
-        </button>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="flex gap-2">
+          <button
+            className={`px-4 py-2 rounded font-display ${activeSheet === 'LOE' ? 'bg-navy text-white' : 'bg-white text-navy border border-line'}`}
+            onClick={() => setActiveSheet('LOE')}
+            title="Level of Effort — the baseline labor tasks required for this job"
+          >
+            LOE
+          </button>
+          <button
+            className={`px-4 py-2 rounded font-display ${activeSheet === 'SOW' ? 'bg-navy text-white' : 'bg-white text-navy border border-line'}`}
+            onClick={() => setActiveSheet('SOW')}
+            title="Statement of Work — additional labor tasks beyond the baseline LOE"
+          >
+            Additional SOW's
+          </button>
+        </div>
+        <div className="flex flex-wrap items-center gap-2">
+          {Array.from(allGroups.keys()).map((category) => (
+            <button
+              key={category}
+              type="button"
+              onClick={() => scrollToLaborCategory(activeSheet, category)}
+              className="rounded-full border border-line px-3 py-1.5 text-xs font-semibold text-slate hover:border-navy hover:text-navy transition-colors"
+            >
+              {category}
+            </button>
+          ))}
+        </div>
       </div>
 
-      {Array.from(groups.entries()).map(([category, tasks]) => {
+      <input
+        type="search"
+        placeholder="Search task, unit, labor role…"
+        className="w-full sm:w-80 border border-line rounded px-3 py-1.5 text-sm"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+
+      {Array.from(allGroups.entries()).map(([category, allTasks]) => {
+        const tasks = needle
+          ? allTasks.filter((task) => {
+              const haystack = [task.name, task.unit, task.laborRole, category].join(' ').toLowerCase();
+              return haystack.includes(needle);
+            })
+          : allTasks;
         const subtotal = result.labor.categorySubtotals.find(
           (c) => c.sheet === activeSheet && c.category === category,
         );
         return (
-          <div key={category} className="bg-white rounded-lg shadow overflow-hidden">
-            <div className="bg-navy-2 text-white px-4 py-2 font-display flex justify-between">
+          <div
+            key={category}
+            id={categoryDomId(activeSheet, category)}
+            className="bg-white rounded-lg shadow overflow-hidden scroll-mt-4"
+          >
+            <div className="bg-navy-2 text-white px-4 py-3 font-display flex justify-between">
               <span>{category}</span>
               <span>{formatCurrency(subtotal?.cost ?? 0)}</span>
             </div>
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-line text-left text-slate">
-                  <th className="px-4 py-2">Task</th>
-                  <th className="px-4 py-2">Unit</th>
-                  <th className="px-4 py-2">Labor Role</th>
-                  <th className="px-4 py-2 text-right">Qty</th>
-                  <th className="px-4 py-2 text-right">Hours</th>
-                  <th className="px-4 py-2 text-right">Cost</th>
-                </tr>
-              </thead>
-              <tbody>
-                {tasks.map((task, i) => {
-                  const taskResult = taskResultByKey.get(task.key);
-                  const isDerived = task.derivedFrom !== null;
-                  return (
-                    <tr key={task.key} className={i % 2 === 0 ? 'bg-white' : 'bg-mist'}>
-                      <td className="px-4 py-2">{task.name}</td>
-                      <td className="px-4 py-2">{task.unit}</td>
-                      <td className="px-4 py-2">{task.laborRole}</td>
-                      <td className="px-4 py-2 text-right">
-                        {isDerived ? (
-                          <span
-                            className="inline-block w-20 text-slate-2 italic"
-                            title="Computed automatically from other task quantities"
-                          >
-                            {taskResult?.quantity.toFixed(2) ?? 0}
-                          </span>
-                        ) : (
-                          <input
-                            type="number"
-                            min={0}
-                            className="w-20 border border-line rounded px-2 py-1 text-right"
-                            value={qtyByKey.get(task.key) ?? 0}
-                            onChange={(e) => setQuantity(task.key, parseNumericInput(e.target.value))}
-                          />
-                        )}
-                      </td>
-                      <td className="px-4 py-2 text-right">{(taskResult?.hours ?? 0).toFixed(2)}</td>
-                      <td className="px-4 py-2 text-right">{formatCurrency(taskResult?.cost ?? 0)}</td>
+            {tasks.length === 0 ? (
+              <p className="px-4 py-6 text-sm text-slate text-center">No tasks match your filter.</p>
+            ) : (
+              <div className="max-h-[28rem] overflow-y-auto">
+                <table className="w-full text-sm">
+                  <thead className="sticky top-0 z-10 bg-white">
+                    <tr className="border-b border-line text-left text-xs font-semibold uppercase tracking-wide text-slate">
+                      <th className="px-4 py-2">Task</th>
+                      <th className="px-4 py-2">Unit</th>
+                      <th className="px-4 py-2 hidden md:table-cell">Labor Role</th>
+                      <th className="px-4 py-2 text-right">Qty</th>
+                      <th className="px-4 py-2 text-right">Hours</th>
+                      <th className="px-4 py-2 text-right">Cost</th>
                     </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+                  </thead>
+                  <tbody>
+                    {tasks.map((task, i) => {
+                      const taskResult = taskResultByKey.get(task.key);
+                      const isDerived = task.derivedFrom !== null;
+                      return (
+                        <tr key={task.key} className={i % 2 === 0 ? 'bg-white' : 'bg-mist'}>
+                          <td className="px-4 py-2">{task.name}</td>
+                          <td className="px-4 py-2">{task.unit}</td>
+                          <td className="px-4 py-2 hidden md:table-cell">{task.laborRole}</td>
+                          <td className="px-4 py-2 text-right">
+                            {isDerived ? (
+                              <span
+                                className="inline-block w-20 text-slate-2 italic"
+                                title="Computed automatically from other task quantities"
+                              >
+                                {taskResult?.quantity.toFixed(2) ?? 0}
+                              </span>
+                            ) : (
+                              <input
+                                type="number"
+                                min={0}
+                                className="w-20 border border-line rounded px-2 py-1 text-right"
+                                value={qtyByKey.get(task.key) ?? 0}
+                                onChange={(e) => setQuantity(task.key, parseNumericInput(e.target.value))}
+                              />
+                            )}
+                          </td>
+                          <td className="px-4 py-2 text-right">{(taskResult?.hours ?? 0).toFixed(2)}</td>
+                          <td className="px-4 py-2 text-right">{formatCurrency(taskResult?.cost ?? 0)}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
         );
       })}
