@@ -48,6 +48,17 @@ describe('rates admin actions (integration — requires a live, seeded local Pos
     expect(updated.cmsNeeded).toBe(3);
   });
 
+  it('rejects a non-integer cmsNeeded with a friendly error instead of throwing', async () => {
+    const original = await prisma.crewSizeRow.findFirstOrThrow({ where: { technicianCount: 4 } });
+    restoreCrewSize.push({ id: original.id, cmsNeeded: original.cmsNeeded });
+
+    const result = await updateCrewSizeRow(original.id, { cmsNeeded: '3.5' });
+    expect(result.error).toMatch(/whole number/);
+
+    const unchanged = await prisma.crewSizeRow.findUniqueOrThrow({ where: { id: original.id } });
+    expect(unchanged.cmsNeeded).toBe(original.cmsNeeded);
+  });
+
   it('updates labor projection settings, converting percent inputs to fractions', async () => {
     const original = await prisma.laborProjectionSettings.findUniqueOrThrow({ where: { id: 'singleton' } });
     restoreSettings = {

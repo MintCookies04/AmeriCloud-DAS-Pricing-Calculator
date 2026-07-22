@@ -20,6 +20,13 @@ function parsePercent(raw: string | undefined): number | null {
   return value / 100;
 }
 
+function parseNonNegativeInt(raw: string | undefined): number | null {
+  if (raw === undefined || raw === '') return null;
+  const value = Number(raw);
+  if (Number.isNaN(value) || value < 0 || !Number.isInteger(value)) return null;
+  return value;
+}
+
 export async function updateLaborRate(id: string, values: Record<string, string>): Promise<ActionResult> {
   const hourlyRate = parseNonNegative(values.hourlyRate);
   if (hourlyRate === null) return { error: 'Hourly rate must be a non-negative number.' };
@@ -31,8 +38,8 @@ export async function updateLaborRate(id: string, values: Record<string, string>
 }
 
 export async function updateCrewSizeRow(id: string, values: Record<string, string>): Promise<ActionResult> {
-  const cmsNeeded = parseNonNegative(values.cmsNeeded);
-  if (cmsNeeded === null) return { error: 'CMs needed must be a non-negative number.' };
+  const cmsNeeded = parseNonNegativeInt(values.cmsNeeded);
+  if (cmsNeeded === null) return { error: 'CMs needed must be a non-negative whole number.' };
 
   await prisma.crewSizeRow.update({ where: { id }, data: { cmsNeeded } });
   return {};
