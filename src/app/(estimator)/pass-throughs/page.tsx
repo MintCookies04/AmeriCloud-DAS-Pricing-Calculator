@@ -3,6 +3,7 @@
 
 import { useEstimate } from '@/lib/estimate/EstimateContext';
 import { formatCurrency } from '@/lib/utils/formatCurrency';
+import { parseNumericInput } from '@/lib/utils/parseNumericInput';
 import { MoveToButton } from '@/components/MoveToButton';
 import type { LaborRole } from '@/lib/calc';
 
@@ -52,10 +53,10 @@ export default function PassThroughsPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="font-display text-2xl text-navy">Pass Throughs</h1>
+      <h1 className="font-display text-3xl font-bold tracking-tight text-navy">Pass Throughs</h1>
 
       <section className="bg-white rounded-lg shadow p-4">
-        <h2 className="font-display text-lg text-navy mb-2 flex justify-between">
+        <h2 className="font-display text-lg font-semibold text-navy mb-2 flex justify-between">
           <span>Per Diem</span>
           <span>{formatCurrency(result.passThroughs.perDiemTotal)}</span>
         </h2>
@@ -70,7 +71,7 @@ export default function PassThroughsPage() {
                 <input
                   type="number" min={0} className="w-16 border border-line rounded px-2 py-1"
                   value={line?.employeeCount ?? 0}
-                  onChange={(e) => setPassThroughs({ perDiem: updateRoleDaysLine(pt.perDiem, role, { employeeCount: Number(e.target.value) }) })}
+                  onChange={(e) => setPassThroughs({ perDiem: updateRoleDaysLine(pt.perDiem, role, { employeeCount: parseNumericInput(e.target.value) }) })}
                 />
               </label>
               <label className="flex items-center gap-1">
@@ -78,7 +79,7 @@ export default function PassThroughsPage() {
                 <input
                   type="number" min={0} className="w-16 border border-line rounded px-2 py-1"
                   value={line?.days ?? 0}
-                  onChange={(e) => setPassThroughs({ perDiem: updateRoleDaysLine(pt.perDiem, role, { days: Number(e.target.value) }) })}
+                  onChange={(e) => setPassThroughs({ perDiem: updateRoleDaysLine(pt.perDiem, role, { days: parseNumericInput(e.target.value) }) })}
                 />
               </label>
             </div>
@@ -87,7 +88,7 @@ export default function PassThroughsPage() {
       </section>
 
       <section className="bg-white rounded-lg shadow p-4">
-        <h2 className="font-display text-lg text-navy mb-2 flex justify-between">
+        <h2 className="font-display text-lg font-semibold text-navy mb-2 flex justify-between">
           <span>Lodging</span>
           <span>{formatCurrency(result.passThroughs.lodgingTotal)}</span>
         </h2>
@@ -102,7 +103,7 @@ export default function PassThroughsPage() {
                 <input
                   type="number" min={0} className="w-16 border border-line rounded px-2 py-1"
                   value={line?.employeeCount ?? 0}
-                  onChange={(e) => setPassThroughs({ lodging: updateRoleDaysLine(pt.lodging, role, { employeeCount: Number(e.target.value) }) })}
+                  onChange={(e) => setPassThroughs({ lodging: updateRoleDaysLine(pt.lodging, role, { employeeCount: parseNumericInput(e.target.value) }) })}
                 />
               </label>
               <label className="flex items-center gap-1">
@@ -110,7 +111,7 @@ export default function PassThroughsPage() {
                 <input
                   type="number" min={0} className="w-16 border border-line rounded px-2 py-1"
                   value={line?.days ?? 0}
-                  onChange={(e) => setPassThroughs({ lodging: updateRoleDaysLine(pt.lodging, role, { days: Number(e.target.value) }) })}
+                  onChange={(e) => setPassThroughs({ lodging: updateRoleDaysLine(pt.lodging, role, { days: parseNumericInput(e.target.value) }) })}
                 />
               </label>
             </div>
@@ -119,7 +120,7 @@ export default function PassThroughsPage() {
       </section>
 
       <section className="bg-white rounded-lg shadow p-4">
-        <h2 className="font-display text-lg text-navy mb-2 flex justify-between">
+        <h2 className="font-display text-lg font-semibold text-navy mb-2 flex justify-between">
           <span>Travel</span>
           <span>{formatCurrency(result.passThroughs.travelTotal)}</span>
         </h2>
@@ -133,7 +134,7 @@ export default function PassThroughsPage() {
                 <input
                   type="number" min={0} className="w-16 border border-line rounded px-2 py-1"
                   value={line?.employeeCount ?? 0}
-                  onChange={(e) => setPassThroughs({ travel: updateRoleHoursLine(pt.travel, role, { employeeCount: Number(e.target.value) }) })}
+                  onChange={(e) => setPassThroughs({ travel: updateRoleHoursLine(pt.travel, role, { employeeCount: parseNumericInput(e.target.value) }) })}
                 />
               </label>
               <label className="flex items-center gap-1">
@@ -141,7 +142,7 @@ export default function PassThroughsPage() {
                 <input
                   type="number" min={0} className="w-16 border border-line rounded px-2 py-1"
                   value={line?.hours ?? 0}
-                  onChange={(e) => setPassThroughs({ travel: updateRoleHoursLine(pt.travel, role, { hours: Number(e.target.value) }) })}
+                  onChange={(e) => setPassThroughs({ travel: updateRoleHoursLine(pt.travel, role, { hours: parseNumericInput(e.target.value) }) })}
                 />
               </label>
             </div>
@@ -150,7 +151,7 @@ export default function PassThroughsPage() {
       </section>
 
       <section className="bg-white rounded-lg shadow p-4">
-        <h2 className="font-display text-lg text-navy mb-2 flex justify-between">
+        <h2 className="font-display text-lg font-semibold text-navy mb-2 flex justify-between">
           <span>Airfare</span>
           <span>{formatCurrency(result.passThroughs.airfareTotal)}</span>
         </h2>
@@ -165,7 +166,7 @@ export default function PassThroughsPage() {
                 <input
                   type="number" min={0} className="w-16 border border-line rounded px-2 py-1"
                   value={line?.qty ?? 0}
-                  onChange={(e) => setPassThroughs({ airfare: updateRoleQtyLine(pt.airfare, role, Number(e.target.value)) })}
+                  onChange={(e) => setPassThroughs({ airfare: updateRoleQtyLine(pt.airfare, role, parseNumericInput(e.target.value)) })}
                 />
               </label>
             </div>
@@ -174,7 +175,7 @@ export default function PassThroughsPage() {
       </section>
 
       <section className="bg-white rounded-lg shadow p-4">
-        <h2 className="font-display text-lg text-navy mb-2 flex justify-between">
+        <h2 className="font-display text-lg font-semibold text-navy mb-2 flex justify-between">
           <span>Rentals</span>
           <span>{formatCurrency(result.passThroughs.rentalsTotal)}</span>
         </h2>
@@ -189,7 +190,7 @@ export default function PassThroughsPage() {
                 <input
                   type="number" min={0} className="w-16 border border-line rounded px-2 py-1"
                   value={line?.qty ?? 0}
-                  onChange={(e) => setPassThroughs({ rentals: updateKeyQtyLine(pt.rentals, key, Number(e.target.value)) })}
+                  onChange={(e) => setPassThroughs({ rentals: updateKeyQtyLine(pt.rentals, key, parseNumericInput(e.target.value)) })}
                 />
               </label>
             </div>
@@ -198,7 +199,7 @@ export default function PassThroughsPage() {
       </section>
 
       <section className="bg-white rounded-lg shadow p-4">
-        <h2 className="font-display text-lg text-navy mb-2 flex justify-between">
+        <h2 className="font-display text-lg font-semibold text-navy mb-2 flex justify-between">
           <span>Soft Costs</span>
           <span>{formatCurrency(result.passThroughs.softCostsTotal)}</span>
         </h2>
@@ -213,7 +214,7 @@ export default function PassThroughsPage() {
                 <input
                   type="number" min={0} className="w-16 border border-line rounded px-2 py-1"
                   value={line?.qty ?? 0}
-                  onChange={(e) => setPassThroughs({ softCosts: updateKeyQtyLine(pt.softCosts, key, Number(e.target.value)) })}
+                  onChange={(e) => setPassThroughs({ softCosts: updateKeyQtyLine(pt.softCosts, key, parseNumericInput(e.target.value)) })}
                 />
               </label>
             </div>

@@ -50,7 +50,7 @@ const emptyValues = {
 export function LaborTasksAdminClient({ rows }: { rows: LaborTask[] }) {
   return (
     <div className="space-y-4">
-      <h1 className="font-display text-2xl text-navy">Labor Task Library</h1>
+      <h1 className="font-display text-3xl font-bold tracking-tight text-navy">Labor Task Library</h1>
       <AdminTable<LaborTask>
         columns={columns}
         rows={rows}
@@ -58,6 +58,9 @@ export function LaborTasksAdminClient({ rows }: { rows: LaborTask[] }) {
         onUpdate={updateLaborTask}
         onDelete={deleteLaborTask}
         emptyValues={emptyValues}
+        searchable
+        searchPlaceholder="Search key, category, name…"
+        maxBodyHeightClassName="max-h-[32rem]"
       />
     </div>
   );

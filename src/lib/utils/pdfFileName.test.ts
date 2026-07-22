@@ -15,4 +15,8 @@ describe('pdfFileName', () => {
     const name = pdfFileName('', '');
     expect(name).toMatch(/^Estimate-\d{4}-\d{2}-\d{2}\.pdf$/);
   });
+
+  it('strips filesystem-unsafe characters from client and project names', () => {
+    expect(pdfFileName('Acme/Corp', 'Project: "Big" <Job>?')).toBe('AcmeCorp-Project Big Job-Estimate.pdf');
+  });
 });

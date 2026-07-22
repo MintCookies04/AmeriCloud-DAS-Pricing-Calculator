@@ -12,7 +12,7 @@ export default async function RatesAdminPage() {
 
   return (
     <div className="space-y-8">
-      <h1 className="font-display text-2xl text-navy">Rates</h1>
+      <h1 className="font-display text-3xl font-bold tracking-tight text-navy">Rates</h1>
       <LaborRatesSection rows={laborRates} />
       <CrewSizeSection rows={crewSizeRows} />
       <LaborProjectionSettingsForm settings={settings} />

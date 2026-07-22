@@ -10,7 +10,7 @@ export default function CoverInfoPage() {
 
   return (
     <div className="max-w-3xl mx-auto bg-white rounded-lg shadow p-8">
-      <h1 className="font-display text-2xl text-navy mb-6">Cover Info</h1>
+      <h1 className="font-display text-3xl font-bold tracking-tight text-navy mb-6">Cover Info</h1>
 
       <div className="grid grid-cols-2 gap-4">
         <label className="flex flex-col gap-1">

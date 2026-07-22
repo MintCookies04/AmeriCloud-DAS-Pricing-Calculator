@@ -1,7 +1,9 @@
 'use client';
 
+import { useState } from 'react';
 import type { MaterialItem, MaterialCategory } from '@prisma/client';
 import { AdminTable, type AdminColumn } from '@/components/admin/AdminTable';
+import { formatCurrency } from '@/lib/utils/formatCurrency';
 import { createMaterial, updateMaterial, deleteMaterial } from './actions';
 
 const CATEGORY_OPTIONS: { value: MaterialCategory; label: string }[] = [
@@ -18,7 +20,7 @@ const columns: AdminColumn<MaterialItem>[] = [
   { key: 'description', label: 'Description', type: 'text', required: true },
   { key: 'vendor', label: 'Vendor', type: 'text' },
   { key: 'category', label: 'Category', type: 'select', options: CATEGORY_OPTIONS, required: true },
-  { key: 'unitCost', label: 'Unit Cost', type: 'number', align: 'right', required: true },
+  { key: 'unitCost', label: 'Unit Cost', type: 'number', align: 'right', required: true, format: (row) => formatCurrency(row.unitCost) },
 ];
 
 const emptyValues = {
@@ -27,17 +29,55 @@ const emptyValues = {
 };
 
 export function MaterialsAdminClient({ rows }: { rows: MaterialItem[] }) {
+  const [search, setSearch] = useState('');
+  const needle = search.trim().toLowerCase();
+
+  const groups = CATEGORY_OPTIONS.map(({ value, label }) => {
+    const categoryRows = rows.filter((r) => r.category === value);
+    const filtered = needle
+      ? categoryRows.filter((r) =>
+          [r.key, r.type, r.manufacturer, r.model, r.description, r.vendor]
+            .filter(Boolean)
+            .join(' ')
+            .toLowerCase()
+            .includes(needle),
+        )
+      : categoryRows;
+    return { value, label, categoryRows, filtered };
+  }).filter((g) => g.categoryRows.length > 0);
+
   return (
     <div className="space-y-4">
-      <h1 className="font-display text-2xl text-navy">Material Catalog</h1>
-      <AdminTable<MaterialItem>
-        columns={columns}
-        rows={rows}
-        onCreate={createMaterial}
-        onUpdate={updateMaterial}
-        onDelete={deleteMaterial}
-        emptyValues={emptyValues}
-      />
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h1 className="font-display text-3xl font-bold tracking-tight text-navy">Material Catalog</h1>
+        <input
+          type="search"
+          placeholder="Search key, type, manufacturer, model, description…"
+          className="w-80 max-w-full border border-line rounded px-3 py-1.5 text-sm"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </div>
+      {groups.map(({ value, label, categoryRows, filtered }) => (
+        <AdminTable<MaterialItem>
+          key={value}
+          columns={columns}
+          rows={filtered}
+          onCreate={createMaterial}
+          onUpdate={updateMaterial}
+          onDelete={deleteMaterial}
+          emptyValues={{ ...emptyValues, category: value }}
+          maxBodyHeightClassName="max-h-[28rem]"
+          header={
+            <div className="bg-navy-2 text-white px-4 py-3 font-display flex justify-between items-center">
+              <span>{label}</span>
+              <span className="text-white/70 text-sm font-body">
+                {filtered.length} of {categoryRows.length}
+              </span>
+            </div>
+          }
+        />
+      ))}
     </div>
   );
 }

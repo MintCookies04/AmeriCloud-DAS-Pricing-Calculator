@@ -4,6 +4,7 @@
 import { useState } from 'react';
 import { useEstimate } from '@/lib/estimate/EstimateContext';
 import { formatCurrency } from '@/lib/utils/formatCurrency';
+import { parseNumericInput } from '@/lib/utils/parseNumericInput';
 import { MoveToButton } from '@/components/MoveToButton';
 import type { LaborTask } from '@/lib/calc';
 
@@ -36,7 +37,7 @@ export default function LaborPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="font-display text-2xl text-navy">Labor</h1>
+      <h1 className="font-display text-3xl font-bold tracking-tight text-navy">Labor</h1>
 
       <div className="flex gap-2">
         <button
@@ -97,7 +98,7 @@ export default function LaborPage() {
                             min={0}
                             className="w-20 border border-line rounded px-2 py-1 text-right"
                             value={qtyByKey.get(task.key) ?? 0}
-                            onChange={(e) => setQuantity(task.key, Number(e.target.value))}
+                            onChange={(e) => setQuantity(task.key, parseNumericInput(e.target.value))}
                           />
                         )}
                       </td>
@@ -113,13 +114,13 @@ export default function LaborPage() {
       })}
 
       <div className="bg-white rounded-lg shadow p-4 space-y-3">
-        <h2 className="font-display text-lg text-navy">Crew Planner</h2>
+        <h2 className="font-display text-lg font-semibold text-navy">Crew Planner</h2>
         <label className="flex items-center gap-3">
           <span className="text-slate">Technicians Needed</span>
           <select
             className="border border-line rounded px-3 py-2"
             value={input.technicianCount}
-            onChange={(e) => setTechnicianCount(Number(e.target.value))}
+            onChange={(e) => setTechnicianCount(parseNumericInput(e.target.value))}
           >
             {Array.from({ length: 20 }, (_, i) => i + 1).map((n) => (
               <option key={n} value={n}>{n}</option>

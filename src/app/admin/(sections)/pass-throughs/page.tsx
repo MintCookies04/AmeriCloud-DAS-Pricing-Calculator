@@ -12,7 +12,7 @@ export default async function PassThroughsAdminPage() {
 
   return (
     <div className="space-y-8">
-      <h1 className="font-display text-2xl text-navy">Pass Throughs</h1>
+      <h1 className="font-display text-3xl font-bold tracking-tight text-navy">Pass Throughs</h1>
       <PassThroughRatesSection rows={roleRates} />
       <RentalsSection rows={rentals} />
       <SoftCostsSection rows={softCosts} />

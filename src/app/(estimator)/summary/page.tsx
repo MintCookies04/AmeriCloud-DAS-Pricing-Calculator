@@ -5,6 +5,7 @@ import { useState } from 'react';
 import dynamic from 'next/dynamic';
 import { useEstimate } from '@/lib/estimate/EstimateContext';
 import { formatCurrency } from '@/lib/utils/formatCurrency';
+import { parseNumericInput } from '@/lib/utils/parseNumericInput';
 import { EstimatePdfDocument } from '@/components/EstimatePdfDocument';
 import { pdfFileName } from '@/lib/utils/pdfFileName';
 
@@ -48,7 +49,7 @@ export default function SummaryPage() {
 
   return (
     <div className="space-y-6 max-w-3xl">
-      <h1 className="font-display text-2xl text-navy">Executive Summary</h1>
+      <h1 className="font-display text-3xl font-bold tracking-tight text-navy">Executive Summary</h1>
 
       <BlobProvider document={<EstimatePdfDocument coverInfo={coverInfo} result={result} />}>
         {({ url, loading }) => (
@@ -63,7 +64,7 @@ export default function SummaryPage() {
       </BlobProvider>
 
       <section className="bg-white rounded-lg shadow p-4">
-        <h2 className="font-display text-lg text-navy mb-2">Labor</h2>
+        <h2 className="font-display text-lg font-semibold text-navy mb-2">Labor</h2>
         <Row label="Operational Labor" value={formatCurrency(es.operationalLaborCost)} />
         <Row label="Admin Labor" value={formatCurrency(es.opsAdminLaborCost)} />
         <Row label="Travel" value={formatCurrency(es.travelCost)} />
@@ -71,7 +72,7 @@ export default function SummaryPage() {
       </section>
 
       <section className="bg-white rounded-lg shadow p-4">
-        <h2 className="font-display text-lg text-navy mb-2">Pass Through</h2>
+        <h2 className="font-display text-lg font-semibold text-navy mb-2">Pass Through</h2>
         <Row label="Per Diem" value={formatCurrency(es.perDiemCost)} />
         <Row label="Lodging" value={formatCurrency(es.lodgingCost)} />
         <Row label="Airfare" value={formatCurrency(es.airfareCost)} />
@@ -81,7 +82,7 @@ export default function SummaryPage() {
       </section>
 
       <section className="bg-white rounded-lg shadow p-4">
-        <h2 className="font-display text-lg text-navy mb-2">Material</h2>
+        <h2 className="font-display text-lg font-semibold text-navy mb-2">Material</h2>
         <Row label="Consumable" value={formatCurrency(es.consumableCost)} />
         <Row label="DAS Materials" value={formatCurrency(es.dasMaterialsCost)} />
         <Row label="BAT Materials" value={formatCurrency(es.batMaterialsCost)} />
@@ -90,7 +91,7 @@ export default function SummaryPage() {
       </section>
 
       <section className="bg-white rounded-lg shadow p-4">
-        <h2 className="font-display text-lg text-navy mb-2">Projected Gross Margins</h2>
+        <h2 className="font-display text-lg font-semibold text-navy mb-2">Projected Gross Margins</h2>
         <Row label="Total Direct Cost" value={formatCurrency(es.totalDirectCost)} strong />
         <Row label="Projected Gross Profit $$" value={formatCurrency(es.grossProfit)} />
         <Row label="Mark-Up %" value={`${(es.markupPercent * 100).toFixed(1)}%`} />
@@ -101,14 +102,14 @@ export default function SummaryPage() {
             type="number"
             className="w-32 border border-line rounded px-2 py-1 text-right"
             value={input.markups.marginTweak}
-            onChange={(e) => setMarkups({ marginTweak: Number(e.target.value) })}
+            onChange={(e) => setMarkups({ marginTweak: parseNumericInput(e.target.value) })}
           />
         </label>
         <Row label="PGM Grand Total" value={formatCurrency(es.projectedGrossMarginTotal)} strong />
       </section>
 
       <section className="bg-white rounded-lg shadow p-4">
-        <h2 className="font-display text-lg text-navy mb-2">Projected Net Margins</h2>
+        <h2 className="font-display text-lg font-semibold text-navy mb-2">Projected Net Margins</h2>
         <Row label="Mark-Up for Corporate" value={formatCurrency(es.corporateMarkupCost)} />
         <Row label="PNM Grand Total" value={formatCurrency(es.projectedNetMarginTotal)} strong />
         <Row label="Projected Net Profit $$" value={formatCurrency(es.netProfit)} />
@@ -130,7 +131,7 @@ export default function SummaryPage() {
                 type="number"
                 className="w-32 border border-line rounded px-2 py-1 text-right"
                 value={venueSqft}
-                onChange={(e) => setVenueSqft(Number(e.target.value))}
+                onChange={(e) => setVenueSqft(parseNumericInput(e.target.value))}
               />
             </label>
             <Row
@@ -151,7 +152,9 @@ export default function SummaryPage() {
         <Row label={`Tax (${(input.markups.taxRate * 100).toFixed(2)}%)`} value={formatCurrency(es.taxAmount)} dark />
         <div className="flex justify-between items-center pt-3 mt-3 border-t border-white/20">
           <span className="font-display text-lg">Grand Total to Bid (Tax Included)</span>
-          <span className="font-display text-2xl text-red">{formatCurrency(es.grandTotalToBidTaxIncluded)}</span>
+          <span className="font-display text-2xl text-white border-b-2 border-red pb-0.5">
+            {formatCurrency(es.grandTotalToBidTaxIncluded)}
+          </span>
         </div>
       </section>
     </div>

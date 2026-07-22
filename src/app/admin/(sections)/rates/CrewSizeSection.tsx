@@ -12,7 +12,7 @@ const columns: AdminColumn<CrewSizeRow>[] = [
 export function CrewSizeSection({ rows }: { rows: CrewSizeRow[] }) {
   return (
     <section className="space-y-2">
-      <h2 className="font-display text-lg text-navy">Crew-Size Table</h2>
+      <h2 className="font-display text-lg font-semibold text-navy">Crew-Size Table</h2>
       <AdminTable<CrewSizeRow> columns={columns} rows={rows} onUpdate={updateCrewSizeRow} />
     </section>
   );

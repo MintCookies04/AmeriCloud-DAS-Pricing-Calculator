@@ -2,12 +2,13 @@
 
 import type { RentalRate } from '@prisma/client';
 import { AdminTable, type AdminColumn } from '@/components/admin/AdminTable';
+import { formatCurrency } from '@/lib/utils/formatCurrency';
 import { createRental, updateRental, deleteRental } from './actions';
 
 const columns: AdminColumn<RentalRate>[] = [
   { key: 'key', label: 'Key', type: 'text', required: true },
   { key: 'name', label: 'Name', type: 'text', required: true },
-  { key: 'rate', label: 'Rate', type: 'number', align: 'right', required: true },
+  { key: 'rate', label: 'Rate', type: 'number', align: 'right', required: true, format: (row) => formatCurrency(row.rate) },
   { key: 'unit', label: 'Billing Unit', type: 'text', required: true },
 ];
 
@@ -16,7 +17,7 @@ const emptyValues = { key: '', name: '', rate: '0', unit: '' };
 export function RentalsSection({ rows }: { rows: RentalRate[] }) {
   return (
     <section className="space-y-2">
-      <h2 className="font-display text-lg text-navy">Rentals</h2>
+      <h2 className="font-display text-lg font-semibold text-navy">Rentals</h2>
       <AdminTable<RentalRate>
         columns={columns}
         rows={rows}

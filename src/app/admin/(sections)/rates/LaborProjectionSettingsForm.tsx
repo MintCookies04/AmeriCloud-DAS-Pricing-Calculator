@@ -45,7 +45,7 @@ export function LaborProjectionSettingsForm({ settings }: { settings: LaborProje
 
   return (
     <section className="space-y-2">
-      <h2 className="font-display text-lg text-navy">Labor Projection Settings</h2>
+      <h2 className="font-display text-lg font-semibold text-navy">Labor Projection Settings</h2>
       <div className="bg-white rounded-lg shadow p-4 space-y-3 max-w-md">
         {error && <p className="text-red-700 text-sm">{error}</p>}
         {FIELDS.map((field) => (

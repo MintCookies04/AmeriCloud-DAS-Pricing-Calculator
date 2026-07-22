@@ -63,6 +63,19 @@ function mapRoleRate(rows: { role: LaborRoleName; amount: number }[]): { role: L
   return rows.map((r) => ({ role: mapRole(r.role), rate: r.amount }));
 }
 
+const ROLE_ORDER: LaborRole[] = [
+  'Technician', 'Construction Manager', 'RF-Engineer', 'RF-Technician', 'Project Coordinator', 'Project Manager',
+];
+
+// None of the Prisma queries below specify `orderBy`, so rows come back in DB-insertion order,
+// which can legitimately differ between pass-through kinds (Per Diem vs. Lodging vs. Airfare)
+// depending on the source workbook's row order. Sorting by the canonical role order here — once,
+// at the data layer — keeps every consumer (Per Diem, Lodging, Travel, Airfare sections) showing
+// roles in the same order, rather than patching each page's render loop separately.
+function sortByRole<T extends { role: LaborRole }>(rows: T[]): T[] {
+  return [...rows].sort((a, b) => ROLE_ORDER.indexOf(a.role) - ROLE_ORDER.indexOf(b.role));
+}
+
 export async function loadReferenceData(): Promise<ReferenceData> {
   const [
     materialItemsDb, laborTasksDb, laborRatesDb, crewSizeTableDb, settingsDb,
@@ -107,11 +120,11 @@ export async function loadReferenceData(): Promise<ReferenceData> {
     derivedFrom: parseDerivedFrom(t.derivedFromJson, t.key),
   }));
 
-  const laborRates = laborRatesDb.map((r) => ({
+  const laborRates = sortByRole(laborRatesDb.map((r) => ({
     role: mapRole(r.role),
     hourlyRate: r.hourlyRate,
     rawWageRate: r.rawWageRate,
-  }));
+  })));
 
   const crewSizeTable = crewSizeTableDb.map((r) => ({
     technicianCount: r.technicianCount,
@@ -132,9 +145,9 @@ export async function loadReferenceData(): Promise<ReferenceData> {
       coordinatorPercentOfTechHours: settingsDb.coordinatorPercentOfTechHours,
     },
     passThroughRates: {
-      perDiemRateByRole: mapRoleRate(perDiemDb),
-      lodgingRateByRole: mapRoleRate(lodgingDb),
-      airfareCostByRole: airfareDb.map((r) => ({ role: mapRole(r.role), cost: r.amount })),
+      perDiemRateByRole: sortByRole(mapRoleRate(perDiemDb)),
+      lodgingRateByRole: sortByRole(mapRoleRate(lodgingDb)),
+      airfareCostByRole: sortByRole(airfareDb.map((r) => ({ role: mapRole(r.role), cost: r.amount }))),
       rentals: rentalsDb.map((r) => ({ key: r.key, name: r.name, rate: r.rate, unit: r.unit })),
       softCosts: softCostsDb.map((r) => ({ key: r.key, name: r.name, fee: r.fee })),
     },
