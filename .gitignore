@@ -5,3 +5,5 @@ node_modules/
 .env.local
 prisma/dev.db
 *.tsbuildinfo
+.vercel
+.env*
